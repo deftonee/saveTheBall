@@ -1,28 +1,42 @@
 package com.mystudio.gamename;
 
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
 
-import org.mini2Dx.core.geom.Shape;
+import org.mini2Dx.core.graphics.Graphics;
 
 /**
  * Created by deftone on 28.01.2018.
  */
 
 public class Actor {
-    Shape shape;
-    Body body;
 
-    Actor(World world){
-        BodyDef def = new BodyDef();
-        def.type = BodyDef.BodyType.DynamicBody;
-        body = world.createBody(def);
+    private Figure figure;
 
-        PolygonShape poly = new PolygonShape();
-        poly.setAsBox(shape.width, shape.height);
-        body.createFixture(poly, 1);
-        poly.dispose();
+    private ActorState state;
+
+    Actor(Figure figure, ActorState state){
+        this.figure = figure;
+        this.state = state;
     }
+
+    public void setFigure(Figure figure){
+        this.figure = figure;
+    }
+
+    public Figure getFigure(){
+        return figure;
+    }
+
+    public ActorState getState() {
+        return state;
+    }
+
+    public void setState(ActorState state) {
+        this.state = state;
+    }
+
+    public void draw(Graphics g){
+        figure.draw(g);
+    };
+
+
 }

@@ -17,6 +17,7 @@ public class MyMini2DxGame extends ScreenBasedGame {
 
         this.addScreen(new InitialScreen());
         this.addScreen(new InGameScreen());
+
     }
 
     public int getInitialScreenId(){
