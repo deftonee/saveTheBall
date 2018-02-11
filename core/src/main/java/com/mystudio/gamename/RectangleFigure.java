@@ -17,6 +17,7 @@ public class RectangleFigure extends Figure {
                            float x, float y, float width, float height){
         BodyDef def = new BodyDef();
         def.type = type;
+        def.position.set(x, y);
         body = world.createBody(def);
 
         shape = new Rectangle(x, y, width, height);

@@ -8,15 +8,15 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class ActorBuilder {
 
-    static Figure getFigure(World world, float ... params){
+    Figure getFigure(World world, float ... params){
         return null;
-    };
+    }
 
-    static ActorState getState(){
+    ActorState getState(){
         return null;
-    };
+    }
 
-    static public Actor build(World world, float ... params){
+    public Actor build(World world, float ... params){
         return new Actor(getFigure(world, params), getState());
     }
 }

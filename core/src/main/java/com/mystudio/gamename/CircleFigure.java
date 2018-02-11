@@ -13,9 +13,10 @@ import org.mini2Dx.core.geom.Circle;
 
 public class CircleFigure extends Figure {
 
-    public CircleFigure(World world, float radius){
+    public CircleFigure(World world, float x, float y, float radius){
         BodyDef def = new BodyDef();
         def.type = BodyDef.BodyType.DynamicBody;
+        def.position.set(x, y);
         body = world.createBody(def);
 
         shape = new Circle(radius);

@@ -13,6 +13,10 @@ public class AndroidLauncher extends AndroidMini2DxGame {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AndroidMini2DxConfig config = new AndroidMini2DxConfig(MyMini2DxGame.GAME_IDENTIFIER);
+        config.useAccelerometer = false;
+        config.useCompass = false;
+        config.hideStatusBar = true;
+
         initialize(new MyMini2DxGame(), config);
     }
 }

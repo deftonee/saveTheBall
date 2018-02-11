@@ -8,11 +8,13 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class BallBuilder extends ActorBuilder {
 
-    static Figure getFigure(World world, float ... params) {
-        return new CircleFigure(world, params[0]);
+    @Override
+    Figure getFigure(World world, float ... params) {
+        return new CircleFigure(world, params[0], params[1], params[2]);
     }
 
-    static ActorState getState() {
+    @Override
+    ActorState getState() {
         return null;
     }
 }

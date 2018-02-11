@@ -21,21 +21,24 @@ public class MyMini2DxGame extends ScreenBasedGame {
     }
 
     public int getInitialScreenId(){
-	    return InitialScreen.ID;
+	    return InGameScreen.ID;
     }
 
     @Override
     public void update(float delta) {
-    
+        super.update(delta);
+
     }
     
     @Override
     public void interpolate(float alpha) {
-    
+        super.interpolate(alpha);
+
     }
     
     @Override
     public void render(Graphics g) {
+        super.render(g);
 
     }
 
