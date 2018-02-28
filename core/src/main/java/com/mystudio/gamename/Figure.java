@@ -22,4 +22,13 @@ public class Figure {
         shape.draw(g);
     };
 
+    public float getWidth(){
+        return 0;
+    }
+
+    public float getHeight(){
+        return 0;
+    }
+
+
 }

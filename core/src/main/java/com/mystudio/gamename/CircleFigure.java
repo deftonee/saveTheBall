@@ -1,8 +1,8 @@
 package com.mystudio.gamename;
 
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import org.mini2Dx.core.geom.Circle;
@@ -19,13 +19,21 @@ public class CircleFigure extends Figure {
         def.position.set(x, y);
         body = world.createBody(def);
 
-        shape = new Circle(radius);
+        shape = new Circle(x, y, radius);
 
-        com.badlogic.gdx.physics.box2d.Shape bodyShape = new CircleShape();
+        Shape bodyShape = new CircleShape();
         bodyShape.setRadius(radius);
         body.createFixture(bodyShape, 1);
         bodyShape.dispose();
 
+    }
+
+    public float getWidth(){
+        return ((Circle) shape).getRadius();
+    }
+
+    public float getHeight(){
+        return ((Circle) shape).getRadius();
     }
 
 }

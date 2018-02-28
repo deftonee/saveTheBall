@@ -9,8 +9,8 @@ import com.badlogic.gdx.physics.box2d.World;
 public class BallBuilder extends ActorBuilder {
 
     @Override
-    Figure getFigure(World world, float ... params) {
-        return new CircleFigure(world, params[0], params[1], params[2]);
+    Figure getFigure(World world, float x, float y, float ... params) {
+        return new CircleFigure(world, x, y, params[0]);
     }
 
     @Override

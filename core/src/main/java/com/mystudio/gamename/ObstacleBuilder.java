@@ -10,9 +10,9 @@ import com.badlogic.gdx.physics.box2d.World;
 public class ObstacleBuilder extends ActorBuilder {
 
     @Override
-    Figure getFigure(World world, float ... params) {
+    Figure getFigure(World world, float x, float y, float ... params) {
         return new RectangleFigure(world, BodyDef.BodyType.StaticBody,
-                params[0], params[1], params[2], params[3]);
+                x, y, params[0], params[1]);
     }
 
     @Override

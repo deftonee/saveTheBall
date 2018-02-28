@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class ActorBuilder {
 
-    Figure getFigure(World world, float ... params){
+    Figure getFigure(World world, float x, float y, float ... params){
         return null;
     }
 
@@ -16,7 +16,9 @@ public class ActorBuilder {
         return null;
     }
 
-    public Actor build(World world, float ... params){
-        return new Actor(getFigure(world, params), getState());
+    public Actor build(World world, float x, float y, float ... params){
+        Actor result = new Actor(getFigure(world, x, y, params), getState());
+        result.setPosition(x, y);
+        return result;
     }
 }

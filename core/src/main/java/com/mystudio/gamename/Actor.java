@@ -53,8 +53,24 @@ public class Actor extends Widget {
 
         this.setRotation(body.getAngle()*  MathUtils.radiansToDegrees);
 
-        this.setPosition(body.getPosition().x-this.getWidth()/2,body.getPosition().y-this.getHeight()/2);
+        this.setPosition(
+            body.getPosition().x - this.getWidth() / 2,
+            body.getPosition().y - this.getHeight() / 2
+        );
+    }
 
+    public float getWidth() {
+        return figure.getWidth();
+    }
+
+    public float getHeight() {
+        return figure.getHeight();
+    }
+
+    public void setPosition (float x, float y) {
+        super.setPosition(x, y);
+        figure.shape.setX(x);
+        figure.shape.setY(y);
     }
 
 }

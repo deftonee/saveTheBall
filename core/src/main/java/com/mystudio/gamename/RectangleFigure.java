@@ -3,7 +3,6 @@ package com.mystudio.gamename;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-
 import org.mini2Dx.core.geom.Parallelogram;
 import org.mini2Dx.core.geom.Rectangle;
 
@@ -27,6 +26,14 @@ public class RectangleFigure extends Figure {
         body.createFixture(bodyShape, 1);
         bodyShape.dispose();
 
+    }
+
+    public float getWidth(){
+        return ((Rectangle) shape).getWidth();
+    }
+
+    public float getHeight(){
+        return ((Rectangle) shape).getHeight();
     }
 
 }
