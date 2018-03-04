@@ -1,16 +1,18 @@
 package com.mystudio.gamename;
 
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 
 /**
  * Created by deftone on 04.02.2018.
  */
 
-public class BallBuilder extends ActorBuilder {
+public class RectangleObstacleBuilder extends ActorBuilder {
 
     @Override
     Figure getFigure(World world, float x, float y, float ... params) {
-        return new CircleFigure(world, x, y, params[0], 0, 1, 0);
+        return new RectangleFigure(world, BodyDef.BodyType.DynamicBody,
+                x, y, params[0], params[1]);
     }
 
     @Override

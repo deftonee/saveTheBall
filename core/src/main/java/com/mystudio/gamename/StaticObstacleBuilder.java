@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.World;
  * Created by deftone on 04.02.2018.
  */
 
-public class ObstacleBuilder extends ActorBuilder {
+public class StaticObstacleBuilder extends ActorBuilder {
 
     @Override
     Figure getFigure(World world, float x, float y, float ... params) {

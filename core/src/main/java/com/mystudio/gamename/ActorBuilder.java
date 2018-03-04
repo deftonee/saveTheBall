@@ -1,5 +1,6 @@
 package com.mystudio.gamename;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
 /**
@@ -17,8 +18,12 @@ public class ActorBuilder {
     }
 
     public Actor build(World world, float x, float y, float ... params){
-        Actor result = new Actor(getFigure(world, x, y, params), getState());
+        Figure f = getFigure(world, x, y, params);
+        ActorState as = getState();
+        Actor result = new Actor(f, as);
         result.setPosition(x, y);
+        result.setOrigin(f.getWidth() / 2, f.getHeight() / 2);
         return result;
     }
+
 }
