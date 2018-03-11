@@ -7,23 +7,18 @@ import com.badlogic.gdx.physics.box2d.World;
  * Created by deftone on 03.02.2018.
  */
 
-public class ActorBuilder {
+public abstract class ActorBuilder {
 
-    Figure getFigure(World world, float x, float y, float ... params){
-        return null;
-    }
+    public int MIN_SIZE = 50;
+    public int MAX_SIZE = 150;
 
-    ActorState getState(){
-        return null;
-    }
+    abstract Figure getFigure(World world, Vector2 position, float ... params);
 
-    public Actor build(World world, float x, float y, float ... params){
-        Figure f = getFigure(world, x, y, params);
+    abstract ActorState getState();
+
+    public Actor build(World world, Vector2 position, float ... params){
+        Figure f = getFigure(world, position, params);
         ActorState as = getState();
-        Actor result = new Actor(f, as);
-        result.setPosition(x, y);
-        result.setOrigin(f.getWidth() / 2, f.getHeight() / 2);
-        return result;
+        return new Actor(f, as);
     }
-
 }

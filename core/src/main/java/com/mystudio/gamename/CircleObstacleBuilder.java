@@ -10,23 +10,22 @@ import java.util.Random;
  * Created by deftone on 04.02.2018.
  */
 
-public class RectangleObstacleBuilder extends ActorBuilder {
+public class CircleObstacleBuilder extends ActorBuilder {
+
     public float defaultFriction = 0;
     public float defaultRestitution = 1;
     public float defaultDensity = 10;
 
     Figure getFigure(World world, Vector2 position, float ... params) {
-        float width, height;
-        if (params.length == 2) {
-            width = params[0];
-            height = params[1];
+        float radius;
+        if (params.length == 1) {
+            radius = params[0];
         } else {
             Random r = new Random();
-            width = r.nextInt(MAX_SIZE - MIN_SIZE) + MIN_SIZE;
-            height = r.nextInt(MAX_SIZE - MIN_SIZE) + MIN_SIZE;
+            radius = (r.nextInt(MAX_SIZE - MIN_SIZE) + MIN_SIZE) / 2;
         }
-        return new RectangleFigure(world, BodyDef.BodyType.DynamicBody,
-                position, width, height, defaultFriction, defaultRestitution, defaultDensity);
+        return new CircleFigure(world, BodyDef.BodyType.DynamicBody,
+                position, radius, defaultFriction, defaultRestitution, defaultDensity);
     }
 
     ActorState getState() {

@@ -16,6 +16,7 @@ public class AndroidLauncher extends AndroidMini2DxGame {
         config.useAccelerometer = false;
         config.useCompass = false;
         config.hideStatusBar = true;
+        config.useWakelock = true;
 
         initialize(new MyMini2DxGame(), config);
     }

@@ -48,15 +48,7 @@ public class Actor extends Widget {
 
     public void act(float delta) {
         super.act(delta);
-
-        Body body = getBody();
-
-        this.setRotation(body.getAngle()*  MathUtils.radiansToDegrees);
-
-        this.setPosition(
-            body.getPosition().x - this.getWidth() / 2,
-            body.getPosition().y - this.getHeight() / 2
-        );
+        figure.actualizePosition();
     }
 
     public float getWidth() {
@@ -65,12 +57,6 @@ public class Actor extends Widget {
 
     public float getHeight() {
         return figure.getHeight();
-    }
-
-    public void setPosition (float x, float y) {
-        super.setPosition(x, y);
-        figure.shape.setX(x);
-        figure.shape.setY(y);
     }
 
 }

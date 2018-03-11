@@ -1,5 +1,7 @@
 package com.mystudio.gamename;
 
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -14,14 +16,14 @@ import org.mini2Dx.core.geom.Circle;
 
 public class CircleFigure extends Figure {
 
-    public CircleFigure(World world, float x, float y, float radius,
+    public CircleFigure(World world, BodyDef.BodyType type, Vector2 position, float radius,
                         float friction, float restitution, float density){
         BodyDef def = new BodyDef();
-        def.type = BodyDef.BodyType.DynamicBody;
-        def.position.set(x + radius / 2, y + radius / 2);
+        def.type = type;
+        def.position.set(position);
         body = world.createBody(def);
 
-        shape = new Circle(x + radius / 2, y + radius / 2, radius);
+        shape = new Circle(position.x - radius / 2, position.y - radius / 2, radius);
 
         Shape bodyShape = new CircleShape();
         bodyShape.setRadius(radius);
@@ -36,8 +38,8 @@ public class CircleFigure extends Figure {
         bodyShape.dispose();
     }
 
-    public CircleFigure(World world, float x, float y, float radius){
-        this(world, x, y, radius, 0.2f, 0, 0);
+    public CircleFigure(World world, BodyDef.BodyType type, Vector2 position, float radius){
+        this(world, type, position, radius, 0.2f, 0, 1);
     }
 
     public float getWidth(){
@@ -46,6 +48,11 @@ public class CircleFigure extends Figure {
 
     public float getHeight(){
         return ((Circle) shape).getRadius();
+    }
+
+    public void actualizePosition(){
+        shape.set(body.getPosition().x, body.getPosition().y);
+        shape.setRotation(body.getAngle() *  MathUtils.radiansToDegrees);
     }
 
 }
