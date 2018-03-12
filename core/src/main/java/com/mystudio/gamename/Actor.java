@@ -1,9 +1,9 @@
 package com.mystudio.gamename;
 
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
+import com.mystudio.gamename.figures.Figure;
 
 import org.mini2Dx.core.graphics.Graphics;
 
@@ -17,7 +17,7 @@ public class Actor extends Widget {
 
     private ActorState state;
 
-    Actor(Figure figure, ActorState state){
+    public Actor(Figure figure, ActorState state){
         this.figure = figure;
         this.state = state;
     }

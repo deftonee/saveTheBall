@@ -1,8 +1,11 @@
-package com.mystudio.gamename;
+package com.mystudio.gamename.actor_builders;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mystudio.gamename.ActorState;
+import com.mystudio.gamename.figures.Figure;
+import com.mystudio.gamename.figures.RectangleFigure;
 
 import java.util.Random;
 

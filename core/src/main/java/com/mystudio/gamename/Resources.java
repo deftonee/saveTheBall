@@ -2,13 +2,15 @@ package com.mystudio.gamename;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.mystudio.gamename.actor_builders.CircleObstacleBuilder;
+import com.mystudio.gamename.actor_builders.HexagonObstacleBuilder;
+import com.mystudio.gamename.actor_builders.PentagonObstacleBuilder;
+import com.mystudio.gamename.actor_builders.RectangleObstacleBuilder;
+import com.mystudio.gamename.actor_builders.TriangleObstacleBuilder;
 
 import org.mini2Dx.core.game.GameContainer;
 import org.mini2Dx.core.graphics.Graphics;
@@ -31,12 +33,11 @@ public class Resources {
             RectangleObstacleBuilder.class,
             CircleObstacleBuilder.class,
             TriangleObstacleBuilder.class,
-            PentagonObstacleBuilder.class
+            PentagonObstacleBuilder.class,
+            HexagonObstacleBuilder.class
     };
 
-    private Resources(){
-
-    }
+    private Resources(){}
 
     public void draw(GameContainer gc, Graphics g){
         g.setBackgroundColor(Color.WHITE);

@@ -1,7 +1,10 @@
-package com.mystudio.gamename;
+package com.mystudio.gamename.actor_builders;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mystudio.gamename.Actor;
+import com.mystudio.gamename.ActorState;
+import com.mystudio.gamename.figures.Figure;
 
 /**
  * Created by deftone on 03.02.2018.
@@ -10,7 +13,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public abstract class ActorBuilder {
 
     public int MIN_SIZE = 50;
-    public int MAX_SIZE = 150;
+    public int MAX_SIZE = 200;
 
     abstract Figure getFigure(World world, Vector2 position, float ... params);
 

@@ -1,4 +1,4 @@
-package com.mystudio.gamename;
+package com.mystudio.gamename.figures;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -11,6 +11,8 @@ import org.mini2Dx.core.graphics.Graphics;
 /**
  * Created by deftone on 02.02.2018.
  */
+
+
 
 public abstract class Figure {
 

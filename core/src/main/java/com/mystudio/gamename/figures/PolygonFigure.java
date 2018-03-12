@@ -1,4 +1,4 @@
-package com.mystudio.gamename;
+package com.mystudio.gamename.figures;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -10,7 +10,6 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import org.mini2Dx.core.geom.Polygon;
 import org.mini2Dx.core.geom.Rectangle;
-import org.mini2Dx.core.geom.Triangle;
 
 /**
  * Created by deftone on 02.02.2018.

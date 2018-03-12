@@ -1,8 +1,12 @@
-package com.mystudio.gamename;
+package com.mystudio.gamename.actor_builders;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mystudio.gamename.ActorState;
+import com.mystudio.gamename.figures.Figure;
+import com.mystudio.gamename.Helpers;
+import com.mystudio.gamename.figures.PolygonFigure;
 
 import java.util.Random;
 
@@ -10,8 +14,7 @@ import java.util.Random;
  * Created by deftone on 04.02.2018.
  */
 
-public class CircleObstacleBuilder extends ActorBuilder {
-
+public class TriangleObstacleBuilder extends ActorBuilder {
     public float defaultFriction = 0;
     public float defaultRestitution = 1;
     public float defaultDensity = 10;
@@ -24,11 +27,14 @@ public class CircleObstacleBuilder extends ActorBuilder {
             Random r = new Random();
             radius = (r.nextInt(MAX_SIZE - MIN_SIZE) + MIN_SIZE) / 2;
         }
-        return new CircleFigure(world, BodyDef.BodyType.DynamicBody,
-                position, radius, defaultFriction, defaultRestitution, defaultDensity);
+        return new PolygonFigure(world, BodyDef.BodyType.DynamicBody,
+                position, Helpers.calcRegularPolygonVertices(radius, 3),
+                defaultFriction, defaultRestitution, defaultDensity);
     }
 
     ActorState getState() {
         return null;
     }
+
+
 }

@@ -5,10 +5,10 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mystudio.gamename.Actor;
-import com.mystudio.gamename.ActorBuilder;
-import com.mystudio.gamename.BallBuilder;
+import com.mystudio.gamename.actor_builders.ActorBuilder;
+import com.mystudio.gamename.actor_builders.BallBuilder;
 import com.mystudio.gamename.Resources;
-import com.mystudio.gamename.StaticObstacleBuilder;
+import com.mystudio.gamename.actor_builders.StaticObstacleBuilder;
 
 import org.mini2Dx.core.game.GameContainer;
 import org.mini2Dx.core.graphics.Graphics;
@@ -72,7 +72,7 @@ public class InGameScreen extends BasicGameScreen {
 
         Random r = new Random();
 
-        for (int i = 0; i <= 5; i++){
+        for (int i = 0; i < 7; i++){
             try {
                 ActorBuilder builder = (ActorBuilder) Resources.obstacleTypes[
                         r.nextInt(Resources.obstacleTypes.length)].newInstance();
@@ -95,7 +95,7 @@ public class InGameScreen extends BasicGameScreen {
 
 //        res.ball.getBody().applyForceToCenter(300f, 2000f, true);
 //        res.ball.getBody().applyAngularImpulse(20f, true);
-        res.ball.getBody().setLinearVelocity(new Vector2(3000,800));
+        res.ball.getBody().setLinearVelocity(new Vector2(3000,8000));
 
     }
 
