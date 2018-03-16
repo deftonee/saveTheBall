@@ -9,7 +9,7 @@ import android.os.Bundle;
 import com.mystudio.gamename.MyMini2DxGame;
 
 public class AndroidLauncher extends AndroidMini2DxGame {
-    @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AndroidMini2DxConfig config = new AndroidMini2DxConfig(MyMini2DxGame.GAME_IDENTIFIER);

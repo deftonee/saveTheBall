@@ -27,4 +27,8 @@ public class BallBuilder extends ActorBuilder {
     ActorState getState() {
         return null;
     }
+
+    String getName() {
+        return "Ball";
+    }
 }

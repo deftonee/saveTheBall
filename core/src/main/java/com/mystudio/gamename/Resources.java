@@ -28,14 +28,9 @@ public class Resources {
     public Actor ball;
     public Actor [] walls = new Actor[4];
     public List<Actor> obstacles = new ArrayList<Actor>(10);
-
-    public static Class [] obstacleTypes = {
-            RectangleObstacleBuilder.class,
-            CircleObstacleBuilder.class,
-            TriangleObstacleBuilder.class,
-            PentagonObstacleBuilder.class,
-            HexagonObstacleBuilder.class
-    };
+    public int score = 0;
+    public int goal = 0;
+//    public int time = 0;
 
     private Resources(){}
 
@@ -68,6 +63,7 @@ public class Resources {
 
     public void dispose() {
         stage.dispose();
+        world.dispose();
     }
 
 

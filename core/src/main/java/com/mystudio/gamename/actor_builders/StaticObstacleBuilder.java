@@ -13,14 +13,16 @@ import com.mystudio.gamename.figures.RectangleFigure;
 
 public class StaticObstacleBuilder extends ActorBuilder {
 
-    @Override
     Figure getFigure(World world, Vector2 position, float ... params) {
         return new RectangleFigure(world, BodyDef.BodyType.StaticBody,
                 position, params[0], params[1]);
     }
 
-    @Override
     ActorState getState() {
         return null;
+    }
+
+    String getName() {
+        return "Static obstacle";
     }
 }

@@ -36,5 +36,8 @@ public class TriangleObstacleBuilder extends ActorBuilder {
         return null;
     }
 
+    String getName() {
+        return "Triangle obstacle";
+    }
 
 }

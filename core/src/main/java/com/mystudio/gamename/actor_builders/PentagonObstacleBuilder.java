@@ -36,4 +36,8 @@ public class PentagonObstacleBuilder extends ActorBuilder {
         return null;
     }
 
+    String getName() {
+        return "Pentagon obstacle";
+    }
+
 }

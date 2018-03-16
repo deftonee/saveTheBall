@@ -8,7 +8,12 @@ import com.mystudio.gamename.Actor;
 import com.mystudio.gamename.actor_builders.ActorBuilder;
 import com.mystudio.gamename.actor_builders.BallBuilder;
 import com.mystudio.gamename.Resources;
+import com.mystudio.gamename.actor_builders.CircleObstacleBuilder;
+import com.mystudio.gamename.actor_builders.HexagonObstacleBuilder;
+import com.mystudio.gamename.actor_builders.PentagonObstacleBuilder;
+import com.mystudio.gamename.actor_builders.RectangleObstacleBuilder;
 import com.mystudio.gamename.actor_builders.StaticObstacleBuilder;
+import com.mystudio.gamename.actor_builders.TriangleObstacleBuilder;
 
 import org.mini2Dx.core.game.GameContainer;
 import org.mini2Dx.core.graphics.Graphics;
@@ -27,7 +32,17 @@ public class InGameScreen extends BasicGameScreen {
     public static final int ID = 1337;
     int WALL_THICKNESS = 5;
 
+    // TODO remove it
     private Box2DDebugRenderer debugRenderer;
+
+    public static Class [] obstacleTypes = {
+            RectangleObstacleBuilder.class,
+            CircleObstacleBuilder.class,
+            TriangleObstacleBuilder.class,
+            PentagonObstacleBuilder.class,
+            HexagonObstacleBuilder.class
+    };
+    int FIGURE_NUMBER = 7;
 
     public void initialise(GameContainer gc){
         debugRenderer = new Box2DDebugRenderer();
@@ -39,32 +54,27 @@ public class InGameScreen extends BasicGameScreen {
 
         res.world = new World(new Vector2(0, 0), true);
 
-        res.ball = new BallBuilder().build(res.world,
+        res.ball = new BallBuilder().build(
                 new Vector2(gc.getWidth() / 2, gc.getHeight() / 2), 50);
-        res.ball.setName("Ball");
         res.stage.addActor(res.ball);
 
         ActorBuilder sob = new StaticObstacleBuilder();
         // upper
-        res.walls[0] = sob.build(res.world,
+        res.walls[0] = sob.build(
                 new Vector2(gc.getWidth() / 2, WALL_THICKNESS / 2),
                 gc.getWidth(), WALL_THICKNESS);
-        res.walls[0].setName("Upper wall");
         //bottom
-        res.walls[1] = sob.build(res.world,
+        res.walls[1] = sob.build(
                 new Vector2(gc.getWidth() / 2, gc.getHeight() - WALL_THICKNESS / 2),
                 gc.getWidth(), WALL_THICKNESS);
-        res.walls[0].setName("Bottom wall");
         //left
-        res.walls[2] = sob.build(res.world,
+        res.walls[2] = sob.build(
                 new Vector2(WALL_THICKNESS / 2, gc.getHeight() / 2),
                 WALL_THICKNESS, gc.getHeight());
-        res.walls[0].setName("Left wall");
         //right
-        res.walls[3] = sob.build(res.world,
+        res.walls[3] = sob.build(
                 new Vector2(gc.getWidth() - WALL_THICKNESS / 2, gc.getHeight() / 2),
                 WALL_THICKNESS, gc.getHeight());
-        res.walls[0].setName("Right wall");
 
         for (Actor wall: res.walls){
             res.stage.addActor(wall);
@@ -72,18 +82,14 @@ public class InGameScreen extends BasicGameScreen {
 
         Random r = new Random();
 
-        for (int i = 0; i < 7; i++){
+        for (int i = 0; i < FIGURE_NUMBER; i++){
             try {
-                ActorBuilder builder = (ActorBuilder) Resources.obstacleTypes[
-                        r.nextInt(Resources.obstacleTypes.length)].newInstance();
-                Actor obstacle = builder.build(
-                        res.world,
-                        new Vector2(
-                                r.nextInt(gc.getWidth() - builder.MAX_SIZE) + builder.MAX_SIZE,
-                                r.nextInt(gc.getWidth() - builder.MAX_SIZE) + builder.MAX_SIZE
-                        )
-                );
-                obstacle.setName(obstacle.getFigure().getShape().getClass().getSimpleName() + " obstacle");
+                ActorBuilder builder = (ActorBuilder) obstacleTypes[
+                        r.nextInt(obstacleTypes.length)].newInstance();
+                Actor obstacle = builder.build(new Vector2(
+                        r.nextInt(gc.getWidth() - builder.MAX_SIZE) + builder.MAX_SIZE,
+                        r.nextInt(gc.getWidth() - builder.MAX_SIZE) + builder.MAX_SIZE
+                ));
                 res.obstacles.add(obstacle);
                 res.stage.addActor(obstacle);
             } catch (InstantiationException e) {

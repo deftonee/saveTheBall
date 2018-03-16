@@ -17,9 +17,10 @@ public class Actor extends Widget {
 
     private ActorState state;
 
-    public Actor(Figure figure, ActorState state){
-        this.figure = figure;
-        this.state = state;
+    public Actor(Figure figure, ActorState state, String name){
+        setFigure(figure);
+        setState(state);
+        setName(name);
     }
 
     public void setFigure(Figure figure){
@@ -58,5 +59,7 @@ public class Actor extends Widget {
     public float getHeight() {
         return figure.getHeight();
     }
+
+
 
 }

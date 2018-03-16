@@ -34,4 +34,8 @@ public class CircleObstacleBuilder extends ActorBuilder {
     ActorState getState() {
         return null;
     }
+
+    String getName() {
+        return "Circle obstacle";
+    }
 }

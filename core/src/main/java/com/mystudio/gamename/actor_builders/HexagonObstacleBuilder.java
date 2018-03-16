@@ -36,4 +36,8 @@ public class HexagonObstacleBuilder extends ActorBuilder {
         return null;
     }
 
+    String getName() {
+        return "Hexagon obstacle";
+    }
+
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mystudio.gamename.Actor;
 import com.mystudio.gamename.ActorState;
+import com.mystudio.gamename.Resources;
 import com.mystudio.gamename.figures.Figure;
 
 /**
@@ -19,9 +20,19 @@ public abstract class ActorBuilder {
 
     abstract ActorState getState();
 
-    public Actor build(World world, Vector2 position, float ... params){
-        Figure f = getFigure(world, position, params);
-        ActorState as = getState();
-        return new Actor(f, as);
+    abstract String getName();
+
+    public Actor build(Vector2 position, float ... params){
+        Resources res = Resources.getInstance();
+        Figure figure = getFigure(res.world, position, params);
+        ActorState state = getState();
+        String name = getName();
+        Actor actor = new Actor(figure, state, name);
+        post_build(actor);
+        return actor;
+
     }
+
+    void post_build(Actor a){
+    };
 }
