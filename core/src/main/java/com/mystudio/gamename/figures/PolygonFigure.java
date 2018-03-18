@@ -9,7 +9,6 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import org.mini2Dx.core.geom.Polygon;
-import org.mini2Dx.core.geom.Rectangle;
 
 /**
  * Created by deftone on 02.02.2018.
@@ -40,23 +39,31 @@ public class PolygonFigure extends Figure {
 
     }
 
-    public float getWidth(){
-        return ((Rectangle) shape).getWidth();
-    }
-
-    public float getHeight(){
-        return ((Rectangle) shape).getHeight();
-    }
-
     public void actualizePosition(){
+        Vector2 bodyPosition = body.getPosition();
         for (Fixture f: body.getFixtureList()) {
             if (f.getBody() == body){
-                ((Polygon)shape).setVertices(getVertices(f, body.getPosition()));
+                ((Polygon)shape).setVertices(getPolygonVerticesFromFixture(f, bodyPosition));
                 break;
             }
         }
-        shape.setRotationAround(body.getPosition().x, body.getPosition().y, body.getAngle() *  MathUtils.radiansToDegrees);
 
+        shape.setRotationAround(
+                bodyPosition.x, bodyPosition.y,
+                body.getAngle() *  MathUtils.radiansToDegrees
+        );
+
+    }
+
+    public static Vector2 [] getPolygonVerticesFromFixture(Fixture f, Vector2 origin){
+        PolygonShape pShape = (PolygonShape)f.getShape();
+        Vector2 [] vertices = new Vector2 [pShape.getVertexCount()];
+        for (int i = 0; i < pShape.getVertexCount(); i++) {
+            vertices[i] = new Vector2();
+            pShape.getVertex(i, vertices[i]);
+            vertices[i].add(origin);
+        }
+        return vertices;
     }
 
 }

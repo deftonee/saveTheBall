@@ -1,6 +1,7 @@
 package com.mystudio.gamename;
 
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.mystudio.gamename.figures.Figure;
@@ -16,12 +17,6 @@ public class Actor extends Widget {
     private Figure figure;
 
     private ActorState state;
-
-    public Actor(Figure figure, ActorState state, String name){
-        setFigure(figure);
-        setState(state);
-        setName(name);
-    }
 
     public void setFigure(Figure figure){
         this.figure = figure;
@@ -50,6 +45,8 @@ public class Actor extends Widget {
     public void act(float delta) {
         super.act(delta);
         figure.actualizePosition();
+        Vector2 position = figure.getPosition();
+        setBounds(position.x, position.y, figure.getWidth(), figure.getHeight());
     }
 
     public float getWidth() {
@@ -60,6 +57,13 @@ public class Actor extends Widget {
         return figure.getHeight();
     }
 
+    public Vector2 getPosition(){
+        return figure.getPosition();
+    }
 
+    public void setPosition(float x, float y){
+        figure.setPosition(x, y);
+        super.setPosition(x, y);
+    }
 
 }

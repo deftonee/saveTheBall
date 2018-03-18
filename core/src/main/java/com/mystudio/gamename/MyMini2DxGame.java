@@ -11,8 +11,7 @@ public class MyMini2DxGame extends ScreenBasedGame {
 
 	public static final String GAME_IDENTIFIER = "com.mystudio.gamename";
 
-	@Override
-    public void initialise() {
+	public void initialise() {
 
         this.addScreen(new InitialScreen());
         this.addScreen(new InGameScreen());
@@ -23,19 +22,18 @@ public class MyMini2DxGame extends ScreenBasedGame {
 	    return InGameScreen.ID;
     }
 
-    @Override
     public void update(float delta) {
         super.update(delta);
-
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
+//            Gdx.app.exit();
+//        }
     }
     
-    @Override
     public void interpolate(float alpha) {
         super.interpolate(alpha);
 
     }
     
-    @Override
     public void render(Graphics g) {
         super.render(g);
 

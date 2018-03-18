@@ -2,8 +2,6 @@ package com.mystudio.gamename.figures;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 import org.mini2Dx.core.geom.Shape;
 import org.mini2Dx.core.graphics.Graphics;
@@ -32,23 +30,21 @@ public abstract class Figure {
     };
 
     public float getWidth(){
-        return 0;
+        return shape.getMaxX() - shape.getMinX();
     }
 
     public float getHeight(){
-        return 0;
+        return shape.getMaxY() - shape.getMinY();
     }
 
     public abstract void actualizePosition();
 
-    public static Vector2 [] getVertices(Fixture f, Vector2 origin){
-        PolygonShape pShape = (PolygonShape)f.getShape();
-        Vector2 [] vertices = new Vector2 [pShape.getVertexCount()];
-        for (int i = 0; i < pShape.getVertexCount(); i++) {
-            vertices[i] = new Vector2();
-            pShape.getVertex(i, vertices[i]);
-            vertices[i].add(origin);
-        }
-        return vertices;
+    public Vector2 getPosition(){
+        return body.getPosition();
+    }
+
+    public void setPosition(float x, float y){
+        body.setTransform(x, y, body.getAngle());
+        actualizePosition();
     }
 }

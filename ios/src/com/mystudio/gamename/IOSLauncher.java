@@ -8,7 +8,7 @@ import com.badlogic.gdx.backends.iosrobovm.IOSMini2DxGame;
 import com.mystudio.gamename.MyMini2DxGame;
 
 public class IOSLauncher extends IOSMini2DxGame.Delegate {
-    @Override
+
     protected IOSMini2DxGame createApplication() {
         IOSMini2DxConfig config = new IOSMini2DxConfig(MyMini2DxGame.GAME_IDENTIFIER);
         return new IOSMini2DxGame(new MyMini2DxGame(), config);

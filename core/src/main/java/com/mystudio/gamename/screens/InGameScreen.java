@@ -1,5 +1,6 @@
 package com.mystudio.gamename.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -30,7 +31,7 @@ import java.util.Random;
 
 public class InGameScreen extends BasicGameScreen {
     public static final int ID = 1337;
-    int WALL_THICKNESS = 5;
+    float WALL_THICKNESS = 4;
 
     // TODO remove it
     private Box2DDebugRenderer debugRenderer;
@@ -52,27 +53,29 @@ public class InGameScreen extends BasicGameScreen {
         ScreenViewport sv = new ScreenViewport();
         res.stage = gc.createStage(sv);
 
+        Gdx.input.setInputProcessor(res.stage);
+
         res.world = new World(new Vector2(0, 0), true);
 
         res.ball = new BallBuilder().build(
                 new Vector2(gc.getWidth() / 2, gc.getHeight() / 2), 50);
         res.stage.addActor(res.ball);
 
-        ActorBuilder sob = new StaticObstacleBuilder();
+        ActorBuilder builder = new StaticObstacleBuilder();
         // upper
-        res.walls[0] = sob.build(
+        res.walls[0] = builder.build(
                 new Vector2(gc.getWidth() / 2, WALL_THICKNESS / 2),
                 gc.getWidth(), WALL_THICKNESS);
         //bottom
-        res.walls[1] = sob.build(
+        res.walls[1] = builder.build(
                 new Vector2(gc.getWidth() / 2, gc.getHeight() - WALL_THICKNESS / 2),
                 gc.getWidth(), WALL_THICKNESS);
         //left
-        res.walls[2] = sob.build(
+        res.walls[2] = builder.build(
                 new Vector2(WALL_THICKNESS / 2, gc.getHeight() / 2),
                 WALL_THICKNESS, gc.getHeight());
         //right
-        res.walls[3] = sob.build(
+        res.walls[3] = builder.build(
                 new Vector2(gc.getWidth() - WALL_THICKNESS / 2, gc.getHeight() / 2),
                 WALL_THICKNESS, gc.getHeight());
 
@@ -84,7 +87,7 @@ public class InGameScreen extends BasicGameScreen {
 
         for (int i = 0; i < FIGURE_NUMBER; i++){
             try {
-                ActorBuilder builder = (ActorBuilder) obstacleTypes[
+                builder = (ActorBuilder) obstacleTypes[
                         r.nextInt(obstacleTypes.length)].newInstance();
                 Actor obstacle = builder.build(new Vector2(
                         r.nextInt(gc.getWidth() - builder.MAX_SIZE) + builder.MAX_SIZE,
@@ -100,8 +103,8 @@ public class InGameScreen extends BasicGameScreen {
         }
 
 //        res.ball.getBody().applyForceToCenter(300f, 2000f, true);
-//        res.ball.getBody().applyAngularImpulse(20f, true);
-        res.ball.getBody().setLinearVelocity(new Vector2(3000,8000));
+//        res.ball.getBody().applyAngularImpulse(200f, true);
+        res.ball.getBody().setLinearVelocity(new Vector2(30000,8000));
 
     }
 

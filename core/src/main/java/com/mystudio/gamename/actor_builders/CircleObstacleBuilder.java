@@ -13,7 +13,7 @@ import java.util.Random;
  * Created by deftone on 04.02.2018.
  */
 
-public class CircleObstacleBuilder extends ActorBuilder {
+public class CircleObstacleBuilder extends TouchableObstacleBuilder {
 
     public float defaultFriction = 0;
     public float defaultRestitution = 1;

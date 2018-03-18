@@ -5,7 +5,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mystudio.gamename.ActorState;
 import com.mystudio.gamename.figures.Figure;
-import com.mystudio.gamename.figures.RectangleFigure;
+import com.mystudio.gamename.figures.PolygonFigure;
+
 
 /**
  * Created by deftone on 04.02.2018.
@@ -13,9 +14,22 @@ import com.mystudio.gamename.figures.RectangleFigure;
 
 public class StaticObstacleBuilder extends ActorBuilder {
 
+    static float defaultFriction = 0;
+    static float defaultRestitution = 1;
+    static float defaultDensity = 0.5f;
+
     Figure getFigure(World world, Vector2 position, float ... params) {
-        return new RectangleFigure(world, BodyDef.BodyType.StaticBody,
-                position, params[0], params[1]);
+        Vector2 size = new Vector2(params[0], params[1]);
+        size.scl(0.5f);
+        Vector2 [] vertices = {
+                new Vector2(-size.x, -size.y),
+                new Vector2(size.x, -size.y),
+                new Vector2(size.x, size.y),
+                new Vector2(-size.x, size.y)
+        };
+        return new PolygonFigure(world, BodyDef.BodyType.StaticBody,
+                position, vertices,
+                defaultFriction, defaultRestitution, defaultDensity);
     }
 
     ActorState getState() {

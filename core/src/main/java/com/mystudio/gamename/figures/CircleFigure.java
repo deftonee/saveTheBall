@@ -42,14 +42,6 @@ public class CircleFigure extends Figure {
         this(world, type, position, radius, 0.2f, 0, 1);
     }
 
-    public float getWidth(){
-        return ((Circle) shape).getRadius();
-    }
-
-    public float getHeight(){
-        return ((Circle) shape).getRadius();
-    }
-
     public void actualizePosition(){
         shape.set(body.getPosition().x, body.getPosition().y);
         shape.setRotation(body.getAngle() *  MathUtils.radiansToDegrees);

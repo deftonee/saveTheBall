@@ -14,7 +14,7 @@ import java.util.Random;
  * Created by deftone on 04.02.2018.
  */
 
-public class HexagonObstacleBuilder extends ActorBuilder {
+public class HexagonObstacleBuilder extends TouchableObstacleBuilder {
     public float defaultFriction = 0;
     public float defaultRestitution = 1;
     public float defaultDensity = 10;
