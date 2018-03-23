@@ -1,2 +1,3 @@
-include 'core', 'desktop', 'android', 'ios'
+include 'core', 'android', 'ios'
+// 'desktop',
 rootProject.name = 'saveTheBall'

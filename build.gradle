@@ -1,4 +1,6 @@
 buildscript {
+
+
     repositories {
         mavenLocal()
         mavenCentral()
@@ -8,10 +10,9 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'org.mini2Dx:parcl:1.1.0'
-        classpath 'org.mini2Dx:butler:1.1.2'
+        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
         classpath 'com.android.tools.build:gradle:3.0.1'
-        classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.0'
+        classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.3'
     }
 }
 
@@ -22,15 +23,11 @@ allprojects {
     version = '1.0.0'
     ext {
         appName = 'saveTheBall'
-        mini2DxVersion = '1.6.5'
-        gdxVersion = '1.9.6'
-        roboVMVersion = '2.3.0'
-        minibusVersion = '1.2.0'
-        miniscriptVersion = '1.0.0-beta1'
+        gdxVersion = '1.9.8'
+        roboVMVersion = '2.3.3'
         box2DLightsVersion = '1.4'
         ashleyVersion = '1.7.0'
         aiVersion = '1.8.0'
-        androidBsfVersion = '3.1.3'
     }
 
     repositories {
@@ -47,61 +44,33 @@ project(":core") {
 
 
     dependencies {
-        compile "org.mini2Dx:mini2Dx-core:$mini2DxVersion"
-        compile "org.mini2Dx:mini2Dx-tiled:$mini2DxVersion"
-        compile "org.mini2Dx:mini2Dx-artemis-odb:$mini2DxVersion"
-        compile "org.mini2Dx:mini2Dx-ui:$mini2DxVersion"
-        compile "org.mini2Dx:mini2Dx-core:$minibusVersion"
+        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
+        compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
+        compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
+        compile "com.badlogicgames.gdx:gdx-ai:$aiVersion"
+
     }
 }
 
-project(":desktop") {
-    apply plugin: "java"
-    apply plugin: "application"
-    apply plugin: "org.mini2Dx.parcl"
-    apply plugin: "org.mini2Dx.butler"
-
-
-    dependencies {
-        compile project(":core")
-        compile "org.mini2Dx:mini2Dx-desktop:$mini2DxVersion"
-        compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
-        compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
-    }
-    parcl {
-        exe {
-            vmArgs = ["-Xmx1g"]
-            exeName = "saveTheBall"
-        }
-        app {
-            vmArgs = ["-Xmx1g"]
-            appName = "saveTheBall"
-            icon = "icon.icns"
-            applicationCategory = "public.app-category.adventure-games"
-            displayName = "saveTheBall"
-            identifier = "saveTheBall"
-            copyright = "Copyright 2018 Your Company Name"
-        }
-        linux {
-            vmArgs = ["-Xmx1g"]
-            binName = "saveTheBall"
-        }
-    }
-    butler {
-        user = "your-itchio-user"
-        game = "saveTheBall"
-        windows {
-            binDirectory = "$buildDir/windows"
-        }
-        osx {
-            binDirectory = "$buildDir/mac"
-        }
-        linux {
-            binDirectory = "$buildDir/linux"
-        }
-    }
-}
+//project(":desktop") {
+//    apply plugin: "java"
+//
+//
+//    dependencies {
+//        compile project(":core")
+//        compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+//        compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+//        compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+//        compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+//        compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+//        compile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
+//        compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
+//
+//    }
+//}
 
 project(":android") {
     apply plugin: "android"
@@ -110,22 +79,30 @@ project(":android") {
 
     dependencies {
         compile project(":core")
-        compile "org.mini2Dx:mini2Dx-android:$mini2DxVersion"
+        compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
-        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-armeabi"
-        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-armeabi-v7a"
-        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-arm64-v8a"
-        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86"
-        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86_64"
+        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64"
+        compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-armeabi"
+        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-armeabi-v7a"
+        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-arm64-v8a"
+        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86"
+        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86_64"
+        compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-controllers-android:$gdxVersion"
+        compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
+        compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
+        compile "com.badlogicgames.gdx:gdx-ai:$aiVersion"
+
     }
 }
 
@@ -136,9 +113,13 @@ project(":ios") {
 
     dependencies {
         compile project(":core")
-        compile "org.mini2Dx:mini2Dx-ios:$mini2DxVersion"
+        compile "com.mobidevelop.robovm:robovm-rt:$roboVMVersion"
+        compile "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
+        compile "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-ios"
+        compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-ios"
+
     }
 }
 
