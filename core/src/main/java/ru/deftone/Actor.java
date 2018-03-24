@@ -1,6 +1,8 @@
 package ru.deftone;
 
 
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
@@ -33,8 +35,12 @@ public class Actor extends Widget {
         this.state = state;
     }
 
-    public void draw(){
-        figure.draw();
+    public void draw(Batch batch, float parentAlpha){
+        figure.draw(batch, parentAlpha);
+    }
+
+    public void drawDebug(ShapeRenderer shapes) {
+        figure.drawDebug(shapes);
     }
 
     public Body getBody(){
@@ -43,7 +49,6 @@ public class Actor extends Widget {
 
     public void act(float delta) {
         super.act(delta);
-        figure.actualizePosition();
         Vector2 position = figure.getPosition();
         setBounds(position.x, position.y, figure.getWidth(), figure.getHeight());
     }
@@ -65,4 +70,7 @@ public class Actor extends Widget {
         super.setPosition(x, y);
     }
 
+    public boolean contains(float x, float y) {
+        return figure.contains(x, y);
+    }
 }

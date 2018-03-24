@@ -56,7 +56,7 @@ public class InGameScreen extends ScreenAdapter {
         int screenWidth = Gdx.graphics.getWidth(), screenHeight = Gdx.graphics.getHeight();
 
         res.ball = new BallBuilder().build(
-                new Vector2(screenWidth / 2, screenHeight / 2), 50);
+                new Vector2(screenWidth / 2, screenHeight / 2), 20);
         res.stage.addActor(res.ball);
 
 
@@ -103,7 +103,9 @@ public class InGameScreen extends ScreenAdapter {
 
 //        res.ball.getBody().applyForceToCenter(300f, 2000f, true);
 //        res.ball.getBody().applyAngularImpulse(200f, true);
-        res.ball.getBody().setLinearVelocity(new Vector2(30000,8000));
+        res.ball.getBody().setLinearVelocity(new Vector2(30000,800000));
+
+        res.stage.getRoot().setDebug(true, true);
 
     }
 
@@ -111,7 +113,9 @@ public class InGameScreen extends ScreenAdapter {
         Resources res = Resources.getInstance();
         res.stage.act();
         res.world.step(delta, 6, 2);
-//        debugRenderer.render(res.world, g.getProjectionMatrix());
+
+        debugRenderer.render(res.world, res.stage.getCamera().combined);
+
         res.draw();
     }
 

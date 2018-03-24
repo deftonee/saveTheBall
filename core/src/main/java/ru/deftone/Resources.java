@@ -3,15 +3,17 @@ package ru.deftone;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Disposable;
 
 /**
  * Created by deftone on 28.02.2018.
  */
 
-public class Resources {
+public class Resources implements Disposable {
 
     private static Resources instance;
 
@@ -27,20 +29,13 @@ public class Resources {
     private Resources(){}
 
     public void draw(){
-//        g.setBackgroundColor(Color.WHITE);
-//        g.setLineHeight(4);
-//        g.setColor(Color.BLUE);
-//        ball.draw(g);
-//
-//        g.setColor(Color.BLACK);
-//
-//        for (Actor wall: walls){
-//            wall.draw(g);
-//        }
-//
-//        for (Actor obstacle: obstacles){
-//            obstacle.draw(g);
-//        }
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        Gdx.gl.glDisable(GL20.GL_BLEND);
+
+        stage.draw();
 
     }
 

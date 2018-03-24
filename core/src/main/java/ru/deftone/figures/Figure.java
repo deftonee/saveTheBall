@@ -1,7 +1,11 @@
 package ru.deftone.figures;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.Shape;
 
 /**
  * Created by deftone on 02.02.2018.
@@ -11,32 +15,30 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 public abstract class Figure {
 
-//    Shape shape;
     Body body;
-
-//    public Shape getShape() {
-//        return shape;
-//    }
 
     public Body getBody(){
         return body;
     }
 
-    public void draw(){
-//        shape.draw();
-    };
+    Shape getShape(){
+        for (Fixture f: body.getFixtureList()) {
+            if (f.getBody() == body) {
+                return f.getShape();
+            }
+        }
+        return null;
+    }
+
+    public abstract void draw(Batch batch, float parentAlpha);
 
     public float getWidth(){
-//        return shape.getMaxX() - shape.getMinX();
         return 0f;
     }
 
     public float getHeight(){
-//        return shape.getMaxY() - shape.getMinY();
         return 0f;
     }
-
-    public abstract void actualizePosition();
 
     public Vector2 getPosition(){
         return body.getPosition();
@@ -44,6 +46,9 @@ public abstract class Figure {
 
     public void setPosition(float x, float y){
         body.setTransform(x, y, body.getAngle());
-        actualizePosition();
     }
+
+    public abstract boolean contains(float x, float y);
+
+    public abstract void drawDebug(ShapeRenderer shapes);
 }

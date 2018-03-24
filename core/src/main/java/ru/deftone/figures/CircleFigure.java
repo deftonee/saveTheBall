@@ -1,6 +1,8 @@
 package ru.deftone.figures;
 
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -21,8 +23,6 @@ public class CircleFigure extends Figure {
         def.position.set(position);
         body = world.createBody(def);
 
-//        shape = new Circle(position.x - radius / 2, position.y - radius / 2, radius);
-
         Shape bodyShape = new CircleShape();
         bodyShape.setRadius(radius);
 
@@ -40,9 +40,42 @@ public class CircleFigure extends Figure {
         this(world, type, position, radius, 0.2f, 0, 1);
     }
 
-    public void actualizePosition(){
-//        shape.set(body.getPosition().x, body.getPosition().y);
-//        shape.setRotation(body.getAngle() *  MathUtils.radiansToDegrees);
+    private float getRadius() {
+        Shape shape = getShape();
+        if (shape == null) {
+            return 0;
+        } else {
+            return getShape().getRadius();
+
+        }
+    }
+
+    public void draw(Batch batch, float parentAlpha) {
+
+    }
+
+    public float getWidth(){
+        return getRadius();
+    }
+
+    public float getHeight(){
+        return getRadius();
+    }
+
+    @Override
+    public boolean contains(float x, float y) {
+        Vector2 distance = new Vector2(body.getPosition());
+        distance.sub(x, y);
+        return distance.len() < getRadius();
+    }
+
+    @Override
+    public void drawDebug(ShapeRenderer shapes) {
+        Vector2 bodyPosition = body.getPosition();
+
+        shapes.setColor(Color.WHITE);
+        shapes.circle(bodyPosition.x, bodyPosition.y, getRadius());
+
     }
 
 }

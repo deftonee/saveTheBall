@@ -9,20 +9,23 @@ import com.badlogic.gdx.math.Vector2;
 public class Helpers {
 
     public static Vector2[] calcRegularPolygonVertices(float r, int n) {
-        double radNextX = 0, radNextY = r;
-        double polarX, polarY;
-        double tempX, tempY;
+        Vector2 buffer = new Vector2(0, r);
         Vector2 [] result = new Vector2[n];
+        for(int i = 0; i < n; i++) {
+            buffer.rotate(360 / n);
+            result[i] = new Vector2(buffer);
+        }
+        return result;
+    }
 
-        for(int i = 0; i < n; i++)
-        {
-            polarX = 1 * Math.cos(Math.acos(-1.0) * 2 / n);
-            polarY = 1 * Math.sin(Math.acos(-1.0) * 2 / n);
-            tempX = radNextX * polarX - radNextY * polarY;
-            tempY = radNextX * polarY + radNextY * polarX;
-            radNextX = tempX;
-            radNextY = tempY;
-            result[i] = new Vector2((float)radNextX, (float)radNextY);
+    public static boolean insidePolygon(float[] xArray, float[] yArray, float x, float y) {
+        int n = xArray.length;
+        int i, j;
+        boolean result = false;
+        for (i = 0, j = n - 1; i < n; j = i++) {
+            if (((yArray[i] > y) != (yArray[j] > y)) &&
+                    (x < (xArray[j] - xArray[i]) * (y - yArray[i]) / (yArray[j] - yArray[i]) + xArray[i]))
+                result = !result;
         }
         return result;
     }

@@ -16,18 +16,14 @@ public class TouchListener extends InputListener {
     }
 
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-        actor.setPosition(event.getStageX(), event.getStageY());
-        System.out.println("TestActor.touchDown()");
-        return true;  // must return true for touchUp event to occur
+        return actor.contains(event.getStageX(), event.getStageY());
     }
 
     public void touchDragged(InputEvent event, float x, float y, int pointer) {
         actor.setPosition(event.getStageX(), event.getStageY());
-        System.out.println("TestActor.touchDragged()");
     }
 
     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-        System.out.println("TestActor.touchUp()");
     }
 
 

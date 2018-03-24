@@ -15,7 +15,7 @@ import ru.deftone.figures.Figure;
 public class BallBuilder extends ActorBuilder {
     static float defaultFriction = 0;
     static float defaultRestitution = 1;
-    static float defaultDensity = 0.5f;
+    static float defaultDensity = 0.1f;
 
 
     Figure getFigure(World world, Vector2 position, float ... params) {

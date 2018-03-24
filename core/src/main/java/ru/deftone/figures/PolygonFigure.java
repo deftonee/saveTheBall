@@ -1,11 +1,18 @@
 package ru.deftone.figures;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
+
+import java.util.Arrays;
+
+import ru.deftone.Helpers;
 
 /**
  * Created by deftone on 02.02.2018.
@@ -21,11 +28,6 @@ public class PolygonFigure extends Figure {
         def.position.set(position);
         body = world.createBody(def);
 
-//        ShapeRenderer().polygon()
-
-
-//        shape = new Polygon(vertices);
-
         PolygonShape bodyShape = new PolygonShape();
         bodyShape.set(vertices);
         FixtureDef fixture = new FixtureDef();
@@ -39,31 +41,87 @@ public class PolygonFigure extends Figure {
 
     }
 
-    public void actualizePosition(){
-//        Vector2 bodyPosition = body.getPosition();
-//        for (Fixture f: body.getFixtureList()) {
-//            if (f.getBody() == body){
-//                ((Polygon)shape).setVertices(getPolygonVerticesFromFixture(f, bodyPosition));
-//                break;
-//            }
-//        }
-//
-//        shape.setRotationAround(
-//                bodyPosition.x, bodyPosition.y,
-//                body.getAngle() *  MathUtils.radiansToDegrees
-//        );
+
+    public void draw(Batch batch, float parentAlpha) {
 
     }
 
-    public static Vector2 [] getPolygonVerticesFromFixture(Fixture f, Vector2 origin){
-        PolygonShape pShape = (PolygonShape)f.getShape();
-        Vector2 [] vertices = new Vector2 [pShape.getVertexCount()];
-        for (int i = 0; i < pShape.getVertexCount(); i++) {
-            vertices[i] = new Vector2();
-            pShape.getVertex(i, vertices[i]);
-            vertices[i].add(origin);
+    private static float [] getPolygonVerticesFromShape(Shape shape, Vector2 origin,
+                                                        float radAngle, boolean oneAfterAnother){
+        int number = ((PolygonShape) shape).getVertexCount();
+        Vector2 buffer = new Vector2();
+        float [] vertices = new float [((PolygonShape) shape).getVertexCount() * 2];
+        for (int i = 0; i < number; i++) {
+            ((PolygonShape) shape).getVertex(i, buffer);
+            buffer.rotateRad(radAngle).add(origin);
+            if (oneAfterAnother){
+                vertices[i] = buffer.x;
+                vertices[i + number] = buffer.y;
+            } else {
+                vertices[i * 2] = buffer.x;
+                vertices[i * 2 + 1] = buffer.y;
+            }
         }
         return vertices;
     }
 
+    public float getWidth() {
+        Shape shape = getShape();
+        if (shape == null)
+            return 0;
+
+        float [] vertices = getPolygonVerticesFromShape(shape, new Vector2(0, 0),
+                                                        body.getAngle(), false);
+        float min = Float.MAX_VALUE;
+        float max = -Float.MAX_VALUE;
+        for (int i = 0; i < vertices.length; i += 2){
+            if (vertices[i] > max)
+                max = vertices[i];
+            if (vertices[i] < min)
+                min = vertices[i];
+        }
+        return max - min;
+    }
+
+    public float getHeight() {
+        Shape shape = getShape();
+        if (shape == null)
+            return 0;
+
+        float [] vertices = getPolygonVerticesFromShape(shape, new Vector2(0, 0),
+                                                        body.getAngle(), false);
+        float min = Float.MAX_VALUE;
+        float max = -Float.MAX_VALUE;
+        for (int i = 1; i < vertices.length; i += 2){
+            if (vertices[i] > max)
+                max = vertices[i];
+            if (vertices[i] < min)
+                min = vertices[i];
+        }
+        return max - min;
+    }
+
+    public boolean contains(float x, float y) {
+        Shape shape = getShape();
+        if (shape == null)
+            return false;
+
+        Vector2 bodyPosition = body.getPosition();
+        float [] vertices = getPolygonVerticesFromShape(shape, bodyPosition, body.getAngle(), true);
+        float [] xArray = Arrays.copyOfRange(vertices, 0, vertices.length / 2);
+        float [] yArray = Arrays.copyOfRange(vertices, vertices.length / 2, vertices.length);
+        return Helpers.insidePolygon(xArray, yArray, x, y);
+
+    }
+
+    public void drawDebug(ShapeRenderer shapes) {
+        Shape shape = getShape();
+        if (shapes == null)
+            return;
+        Vector2 bodyPosition = body.getPosition();
+
+        shapes.setColor(Color.WHITE);
+        shapes.polygon(getPolygonVerticesFromShape(shape, bodyPosition, body.getAngle(), false));
+
+    }
 }

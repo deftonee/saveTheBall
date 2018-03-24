@@ -15,10 +15,6 @@ import java.util.Random;
 
 public class CircleObstacleBuilder extends TouchableObstacleBuilder {
 
-    public float defaultFriction = 0;
-    public float defaultRestitution = 1;
-    public float defaultDensity = 10;
-
     Figure getFigure(World world, Vector2 position, float ... params) {
         float radius;
         if (params.length == 1) {
