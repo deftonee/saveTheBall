@@ -94,11 +94,9 @@ public class InGameScreen extends ScreenAdapter {
                 ));
                 res.obstacles.add(obstacle);
                 res.stage.addActor(obstacle);
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
             }
+            catch (InstantiationException e) { e.printStackTrace(); }
+            catch (IllegalAccessException e) { e.printStackTrace(); }
         }
 
 //        res.ball.getBody().applyForceToCenter(300f, 2000f, true);

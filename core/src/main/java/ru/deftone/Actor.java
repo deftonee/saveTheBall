@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 
 import ru.deftone.figures.Figure;
@@ -70,7 +71,9 @@ public class Actor extends Widget {
         super.setPosition(x, y);
     }
 
-    public boolean contains(float x, float y) {
-        return figure.contains(x, y);
+    public com.badlogic.gdx.scenes.scene2d.Actor hit (float x, float y, boolean touchable) {
+        if (touchable && getTouchable() != Touchable.enabled) return null;
+        return x >= 0 && x < getWidth() && y >= 0 && y < getHeight() ? this : null;
+        //figure.contains(x, y)
     }
 }
