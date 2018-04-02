@@ -1,4 +1,12 @@
 android {
+    signingConfigs {
+        config {
+            keyAlias 'key0'
+            keyPassword '761943'
+            storeFile file('/Users/konstantin/.android/android.jks')
+            storePassword '761943'
+        }
+    }
     buildToolsVersion "27.0.1"
     compileSdkVersion 27
     sourceSets {
@@ -9,22 +17,26 @@ android {
             renderscript.srcDirs = ['src']
             res.srcDirs = ['res']
             assets.srcDirs = ['../assets']
-			jniLibs.srcDirs = ['libs']
+            jniLibs.srcDirs = ['libs']
         }
 
         instrumentTest.setRoot('tests')
     }
-	packagingOptions {
-		exclude 'META-INF/LICENSE.txt'
-		exclude 'META-INF/NOTICE.txt'
-		exclude 'rebel.xml'
-	}
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'rebel.xml'
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.config
+        }
+    }
 }
-
 // called every time gradle gets executed, takes the native dependencies of
 // the natives configuration, and extracts them to the proper libs/ folders
 // so they get packed with the APK.
-task copyAndroidNatives() { 
+task copyAndroidNatives() {
     file("libs/armeabi/").mkdirs();
     file("libs/armeabi-v7a/").mkdirs();
     file("libs/arm64-v8a/").mkdirs();
@@ -33,12 +45,12 @@ task copyAndroidNatives() {
 
     configurations.natives.files.each { jar ->
         def outputDir = null
-        if(jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("libs/arm64-v8a")
-        if(jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("libs/armeabi-v7a")        
-        if(jar.name.endsWith("natives-armeabi.jar")) outputDir = file("libs/armeabi")
-        if(jar.name.endsWith("natives-x86_64.jar")) outputDir = file("libs/x86_64")
-        if(jar.name.endsWith("natives-x86.jar")) outputDir = file("libs/x86")
-        if(outputDir != null) {
+        if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("libs/arm64-v8a")
+        if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("libs/armeabi-v7a")
+        if (jar.name.endsWith("natives-armeabi.jar")) outputDir = file("libs/armeabi")
+        if (jar.name.endsWith("natives-x86_64.jar")) outputDir = file("libs/x86_64")
+        if (jar.name.endsWith("natives-x86.jar")) outputDir = file("libs/x86")
+        if (outputDir != null) {
             copy {
                 from zipTree(jar)
                 into outputDir
@@ -47,7 +59,6 @@ task copyAndroidNatives() {
         }
     }
 }
-
 task launchAndroid(type: Exec, dependsOn: ':android:installDebug') {
     def path
     def localProperties = project.file("../local.properties")
@@ -69,7 +80,6 @@ task launchAndroid(type: Exec, dependsOn: ':android:installDebug') {
     def adb = path + "/platform-tools/adb"
     commandLine "$adb", 'shell', 'am', 'start', '-n', 'ru.deftone.android/AndroidLauncher'
 }
-
 // sets up the Android Eclipse project, using the old Ant based build.
 eclipse {
     // need to specify Java source sets explicitely, SpringSource Gradle Eclipse plugin
@@ -86,8 +96,8 @@ eclipse {
     }
 
     classpath {
-        plusConfigurations += [ project.configurations.compile ]        
-        containers 'com.android.ide.eclipse.adt.ANDROID_FRAMEWORK', 'com.android.ide.eclipse.adt.LIBRARIES'       
+        plusConfigurations += [project.configurations.compile]
+        containers 'com.android.ide.eclipse.adt.ANDROID_FRAMEWORK', 'com.android.ide.eclipse.adt.LIBRARIES'
     }
 
     project {
@@ -100,12 +110,11 @@ eclipse {
         buildCommand "com.android.ide.eclipse.adt.ApkBuilder"
     }
 }
-
 // sets up the Android Idea project, using the old Ant based build.
 idea {
     module {
         sourceDirs += file("src");
-        scopes = [ COMPILE: [plus:[project.configurations.compile]]]        
+        scopes = [COMPILE: [plus: [project.configurations.compile]]]
 
         iml {
             withXml {
@@ -115,11 +124,13 @@ idea {
                 builder.component(name: "FacetManager") {
                     facet(type: "android", name: "Android") {
                         configuration {
-                            option(name: "UPDATE_PROPERTY_FILES", value:"true")
+                            option(name: "UPDATE_PROPERTY_FILES", value: "true")
                         }
                     }
                 }
             }
         }
     }
+}
+dependencies {
 }

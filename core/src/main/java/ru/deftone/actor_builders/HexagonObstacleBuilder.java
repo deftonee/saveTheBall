@@ -23,7 +23,7 @@ public class HexagonObstacleBuilder extends TouchableObstacleBuilder {
             radius = params[0];
         } else {
             Random r = new Random();
-            radius = (r.nextInt(MAX_SIZE - MIN_SIZE) + MIN_SIZE) / 2;
+            radius = (r.nextFloat() * (MAX_SIZE - MIN_SIZE) + MIN_SIZE) / 2;
         }
         return new PolygonFigure(world, BodyDef.BodyType.DynamicBody,
                 position, Helpers.calcRegularPolygonVertices(radius, 6),

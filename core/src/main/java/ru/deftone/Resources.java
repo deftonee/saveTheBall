@@ -26,9 +26,9 @@ public class Resources implements Disposable {
     public int goal = 0;
 //    public int time = 0;
 
-    private Resources(){}
+    private Resources() {}
 
-    public void draw(){
+    public void draw() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -40,7 +40,7 @@ public class Resources implements Disposable {
     }
 
 
-    public static Resources getInstance(){
+    public static Resources getInstance() {
         if (instance == null){
             instance = new Resources();
         }

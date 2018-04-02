@@ -8,6 +8,8 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Helpers {
 
+    final static float PPM = 10;
+
     public static Vector2[] calcRegularPolygonVertices(float r, int n) {
         Vector2 buffer = new Vector2(0, r);
         Vector2 [] result = new Vector2[n];
@@ -29,5 +31,22 @@ public class Helpers {
         }
         return result;
     }
+
+    public static float toBox2d(float x) {
+        return x / PPM;
+    }
+
+    public static Vector2 toBox2d(Vector2 x) {
+        return x.scl(1 / PPM);
+    }
+
+//    public static float fromBox2d(float x) {
+//        return x * PPM;
+//    }
+//
+//    public static Vector2 fromBox2d(Vector2 x) {
+//        return x.scl(PPM);
+//    }
+
 
 }

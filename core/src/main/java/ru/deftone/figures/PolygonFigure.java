@@ -106,12 +106,12 @@ public class PolygonFigure extends Figure {
         if (shape == null)
             return false;
 
-        Vector2 bodyPosition = body.getPosition();
-        float [] vertices = getPolygonVerticesFromShape(shape, bodyPosition, body.getAngle(), true);
-        float [] xArray = Arrays.copyOfRange(vertices, 0, vertices.length / 2);
-        float [] yArray = Arrays.copyOfRange(vertices, vertices.length / 2, vertices.length);
-        return Helpers.insidePolygon(xArray, yArray, x, y);
-
+        float [] vertices = getPolygonVerticesFromShape(
+                shape, new Vector2(), body.getAngle(), true);
+        return Helpers.insidePolygon(
+                Arrays.copyOfRange(vertices, 0, vertices.length / 2),
+                Arrays.copyOfRange(vertices, vertices.length / 2, vertices.length),
+                x, y);
     }
 
     public void drawDebug(ShapeRenderer shapes) {

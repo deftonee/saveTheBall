@@ -64,9 +64,9 @@ public class CircleFigure extends Figure {
 
     @Override
     public boolean contains(float x, float y) {
-        Vector2 distance = new Vector2(body.getPosition());
+        Vector2 distance = new Vector2();
         distance.sub(x, y);
-        return distance.len() < getRadius();
+        return distance.len() <= getRadius();
     }
 
     @Override

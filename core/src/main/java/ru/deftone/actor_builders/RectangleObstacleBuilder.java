@@ -22,8 +22,8 @@ public class RectangleObstacleBuilder extends TouchableObstacleBuilder {
         } else {
             Random r = new Random();
             size = new Vector2(
-                    r.nextInt(MAX_SIZE - MIN_SIZE) + MIN_SIZE,
-                    r.nextInt(MAX_SIZE - MIN_SIZE) + MIN_SIZE);
+                    r.nextFloat() * (MAX_SIZE - MIN_SIZE) + MIN_SIZE,
+                    r.nextFloat() * (MAX_SIZE - MIN_SIZE) + MIN_SIZE);
         }
         size.scl(0.5f);
         Vector2 [] vertices = {

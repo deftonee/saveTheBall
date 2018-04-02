@@ -21,7 +21,7 @@ public class CircleObstacleBuilder extends TouchableObstacleBuilder {
             radius = params[0];
         } else {
             Random r = new Random();
-            radius = (r.nextInt(MAX_SIZE - MIN_SIZE) + MIN_SIZE) / 2;
+            radius = (r.nextFloat() * (MAX_SIZE - MIN_SIZE) + MIN_SIZE) / 2;
         }
         return new CircleFigure(world, BodyDef.BodyType.DynamicBody,
                 position, radius, defaultFriction, defaultRestitution, defaultDensity);

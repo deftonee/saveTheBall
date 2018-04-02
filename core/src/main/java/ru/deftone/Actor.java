@@ -73,7 +73,14 @@ public class Actor extends Widget {
 
     public com.badlogic.gdx.scenes.scene2d.Actor hit (float x, float y, boolean touchable) {
         if (touchable && getTouchable() != Touchable.enabled) return null;
-        return x >= 0 && x < getWidth() && y >= 0 && y < getHeight() ? this : null;
-        //figure.contains(x, y)
+        return figure.contains(x, y) ? this : null;
+
     }
+
+    public void moveToTarget(float targetX, float targetY) {
+        Vector2 toTarget = new Vector2(targetX, targetY).sub(getBody().getWorldCenter()).scl(4);
+        getBody().setLinearVelocity(toTarget);
+        getBody().setAngularVelocity(0);
+    }
+
 }

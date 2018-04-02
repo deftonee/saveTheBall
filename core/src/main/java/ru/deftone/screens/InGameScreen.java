@@ -6,11 +6,11 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import ru.deftone.Actor;
+import ru.deftone.Helpers;
 import ru.deftone.actor_builders.ActorBuilder;
 import ru.deftone.actor_builders.BallBuilder;
 import ru.deftone.Resources;
@@ -29,8 +29,8 @@ import ru.deftone.actor_builders.TriangleObstacleBuilder;
 public class InGameScreen extends ScreenAdapter {
     float WALL_THICKNESS = 4;
 
-    // TODO remove it
-    private Box2DDebugRenderer debugRenderer;
+    int FIGURE_NUMBER = 5;
+
 
     public static Class [] obstacleTypes = {
             RectangleObstacleBuilder.class,
@@ -39,44 +39,44 @@ public class InGameScreen extends ScreenAdapter {
             PentagonObstacleBuilder.class,
             HexagonObstacleBuilder.class
     };
-    int FIGURE_NUMBER = 7;
 
     public InGameScreen(Game game){
-        debugRenderer = new Box2DDebugRenderer();
+
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
 
         Resources res = Resources.getInstance();
 
         ScreenViewport sv = new ScreenViewport();
+        sv.setUnitsPerPixel(Helpers.toBox2d(sv.getUnitsPerPixel()));
         res.stage = new Stage(sv);
 
         Gdx.input.setInputProcessor(res.stage);
 
         res.world = new World(new Vector2(0, 0), true);
 
-        int screenWidth = Gdx.graphics.getWidth(), screenHeight = Gdx.graphics.getHeight();
-
         res.ball = new BallBuilder().build(
-                new Vector2(screenWidth / 2, screenHeight / 2), 20);
+                Helpers.toBox2d(new Vector2(screenWidth / 2, screenHeight / 2)),
+                Helpers.toBox2d(20));
         res.stage.addActor(res.ball);
-
 
         ActorBuilder builder = new StaticObstacleBuilder();
         // upper
         res.walls[0] = builder.build(
-                new Vector2(screenWidth / 2, WALL_THICKNESS / 2),
-                screenWidth, WALL_THICKNESS);
+                Helpers.toBox2d(new Vector2(screenWidth / 2, WALL_THICKNESS / 2)),
+                Helpers.toBox2d(screenWidth), Helpers.toBox2d(WALL_THICKNESS));
         //bottom
         res.walls[1] = builder.build(
-                new Vector2(screenWidth / 2, screenHeight - WALL_THICKNESS / 2),
-                screenWidth, WALL_THICKNESS);
+                Helpers.toBox2d(new Vector2(screenWidth / 2, screenHeight - WALL_THICKNESS / 2)),
+                Helpers.toBox2d(screenWidth), Helpers.toBox2d(WALL_THICKNESS));
         //left
         res.walls[2] = builder.build(
-                new Vector2(WALL_THICKNESS / 2, screenHeight / 2),
-                WALL_THICKNESS, screenHeight);
+                Helpers.toBox2d(new Vector2(WALL_THICKNESS / 2, screenHeight / 2)),
+                Helpers.toBox2d(WALL_THICKNESS), Helpers.toBox2d(screenHeight));
         //right
         res.walls[3] = builder.build(
-                new Vector2(screenWidth - WALL_THICKNESS / 2, screenHeight / 2),
-                WALL_THICKNESS, screenHeight);
+                Helpers.toBox2d(new Vector2(screenWidth - WALL_THICKNESS / 2, screenHeight / 2)),
+                Helpers.toBox2d(WALL_THICKNESS), Helpers.toBox2d(screenHeight));
 
         for (Actor wall: res.walls){
             res.stage.addActor(wall);
@@ -88,10 +88,10 @@ public class InGameScreen extends ScreenAdapter {
             try {
                 builder = (ActorBuilder) obstacleTypes[
                         r.nextInt(obstacleTypes.length)].newInstance();
-                Actor obstacle = builder.build(new Vector2(
-                        r.nextInt(screenWidth - builder.MAX_SIZE) + builder.MAX_SIZE,
-                        r.nextInt(screenWidth - builder.MAX_SIZE) + builder.MAX_SIZE
-                ));
+                Actor obstacle = builder.build(Helpers.toBox2d(new Vector2(
+                        r.nextFloat() * (screenWidth - builder.MAX_SIZE) + builder.MAX_SIZE,
+                        r.nextFloat() * (screenHeight - builder.MAX_SIZE) + builder.MAX_SIZE
+                )));
                 res.obstacles.add(obstacle);
                 res.stage.addActor(obstacle);
             }
@@ -99,9 +99,7 @@ public class InGameScreen extends ScreenAdapter {
             catch (IllegalAccessException e) { e.printStackTrace(); }
         }
 
-//        res.ball.getBody().applyForceToCenter(300f, 2000f, true);
-//        res.ball.getBody().applyAngularImpulse(200f, true);
-        res.ball.getBody().setLinearVelocity(new Vector2(30000,800000));
+        res.ball.getBody().setLinearVelocity(new Vector2(10,20));
 
         res.stage.getRoot().setDebug(true, true);
 
@@ -111,9 +109,6 @@ public class InGameScreen extends ScreenAdapter {
         Resources res = Resources.getInstance();
         res.stage.act();
         res.world.step(delta, 6, 2);
-
-        debugRenderer.render(res.world, res.stage.getCamera().combined);
-
         res.draw();
     }
 

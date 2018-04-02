@@ -9,9 +9,9 @@ import ru.deftone.listeners.TouchListener;
  */
 
 public abstract class TouchableObstacleBuilder extends ActorBuilder {
-    public float defaultFriction = 0;
+    public float defaultFriction = 1;
     public float defaultRestitution = 1;
-    public float defaultDensity = 4;
+    public float defaultDensity = 3;
 
     void postBuild (Actor actor) {
         super.postBuild(actor);

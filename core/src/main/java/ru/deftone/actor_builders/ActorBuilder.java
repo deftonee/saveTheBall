@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import ru.deftone.Actor;
 import ru.deftone.ActorState;
+import ru.deftone.Helpers;
 import ru.deftone.Resources;
 import ru.deftone.figures.Figure;
 
@@ -14,8 +15,8 @@ import ru.deftone.figures.Figure;
 
 public abstract class ActorBuilder {
 
-    public int MIN_SIZE = 100;
-    public int MAX_SIZE = 250;
+    public float MIN_SIZE = Helpers.toBox2d(100);
+    public float MAX_SIZE = Helpers.toBox2d(250);
 
     abstract Figure getFigure(World world, Vector2 position, float ... params);
 
