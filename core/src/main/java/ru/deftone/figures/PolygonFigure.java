@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import java.util.Arrays;
 
+import ru.deftone.Actor;
 import ru.deftone.Helpers;
 
 /**
@@ -20,9 +21,10 @@ import ru.deftone.Helpers;
 
 public class PolygonFigure extends Figure {
 
-    public PolygonFigure(World world, BodyDef.BodyType type,
+    public PolygonFigure(Actor actor, World world, BodyDef.BodyType type,
                          Vector2 position, Vector2 [] vertices,
                          float friction, float restitution, float density){
+        super(actor);
         BodyDef def = new BodyDef();
         def.type = type;
         def.position.set(position);
@@ -37,6 +39,7 @@ public class PolygonFigure extends Figure {
         fixture.density = density;
 
         body.createFixture(fixture);
+        body.setUserData(actor);
         bodyShape.dispose();
 
     }
@@ -120,7 +123,7 @@ public class PolygonFigure extends Figure {
             return;
         Vector2 bodyPosition = body.getPosition();
 
-        shapes.setColor(Color.WHITE);
+        shapes.setColor(actor.getColor());
         shapes.polygon(getPolygonVerticesFromShape(shape, bodyPosition, body.getAngle(), false));
 
     }

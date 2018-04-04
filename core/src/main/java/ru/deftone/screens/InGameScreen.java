@@ -20,6 +20,8 @@ import ru.deftone.actor_builders.PentagonObstacleBuilder;
 import ru.deftone.actor_builders.RectangleObstacleBuilder;
 import ru.deftone.actor_builders.StaticObstacleBuilder;
 import ru.deftone.actor_builders.TriangleObstacleBuilder;
+import ru.deftone.listeners.CollisionListener;
+import ru.deftone.states.HelpfulState;
 
 
 /**
@@ -54,6 +56,8 @@ public class InGameScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(res.stage);
 
         res.world = new World(new Vector2(0, 0), true);
+
+        res.world.setContactListener(new CollisionListener());
 
         res.ball = new BallBuilder().build(
                 Helpers.toBox2d(new Vector2(screenWidth / 2, screenHeight / 2)),
@@ -108,6 +112,17 @@ public class InGameScreen extends ScreenAdapter {
     public void render(float delta) {
         Resources res = Resources.getInstance();
         res.stage.act();
+        int helpfuls = 0;
+
+        for (Actor obstacle: res.obstacles) {
+            if (obstacle.getState() instanceof HelpfulState)
+                helpfuls++;
+        }
+        if (helpfuls == 0){
+            Actor obstacle = res.obstacles.get(new Random().nextInt(res.obstacles.size()));
+            obstacle.setState(new HelpfulState(obstacle));
+        }
+
         res.world.step(delta, 6, 2);
         res.draw();
     }

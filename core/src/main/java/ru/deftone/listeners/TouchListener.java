@@ -14,7 +14,6 @@ import ru.deftone.Actor;
 public class TouchListener extends InputListener {
     Actor actor;
     float touchX, touchY;
-    boolean dragging;
 
     public TouchListener(Actor actor) {
         this.actor = actor;
@@ -23,16 +22,15 @@ public class TouchListener extends InputListener {
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
         touchX = x;
         touchY = y;
-        actor.moveToTarget(event.getStageX() - touchX, event.getStageY() - touchY);
-        return true;
+        return actor.touchDown(event.getStageX() - touchX, event.getStageY() - touchY);
     }
 
     public void touchDragged(InputEvent event, float x, float y, int pointer) {
-        actor.moveToTarget(event.getStageX() - touchX, event.getStageY() - touchY);
+        actor.touchDragged(event.getStageX() - touchX, event.getStageY() - touchY);
     }
 
     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-        dragging = false;
+        actor.touchUp(event.getStageX() - touchX, event.getStageY() - touchY);
     }
 
 }

@@ -7,6 +7,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Shape;
 
+import ru.deftone.Actor;
+
 /**
  * Created by deftone on 02.02.2018.
  */
@@ -16,6 +18,11 @@ import com.badlogic.gdx.physics.box2d.Shape;
 public abstract class Figure {
 
     Body body;
+    Actor actor;
+
+    public Figure(Actor actor) {
+        this.actor = actor;
+    }
 
     public Body getBody(){
         return body;

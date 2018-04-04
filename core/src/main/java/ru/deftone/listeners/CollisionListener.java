@@ -5,6 +5,8 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
+import ru.deftone.Actor;
+
 /**
  * Created by deftone on 18.03.2018.
  */
@@ -12,10 +14,15 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 public class CollisionListener implements ContactListener {
 
     public void beginContact(Contact contact) {
-        assert true;
+        Actor actorA = (Actor) contact.getFixtureA().getBody().getUserData();
+        Actor actorB = (Actor) contact.getFixtureB().getBody().getUserData();
+        actorA.beginContact(actorB);
     }
 
     public void endContact(Contact contact) {
+        Actor actorA = (Actor) contact.getFixtureA().getBody().getUserData();
+        Actor actorB = (Actor) contact.getFixtureB().getBody().getUserData();
+        actorA.endContact(actorB);
         assert true;
     }
 

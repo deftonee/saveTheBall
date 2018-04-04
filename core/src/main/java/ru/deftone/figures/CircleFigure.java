@@ -10,14 +10,18 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 
+import ru.deftone.Actor;
+
 /**
  * Created by deftone on 02.02.2018.
  */
 
 public class CircleFigure extends Figure {
 
-    public CircleFigure(World world, BodyDef.BodyType type, Vector2 position, float radius,
+    public CircleFigure(Actor actor, World world, BodyDef.BodyType type,
+                        Vector2 position, float radius,
                         float friction, float restitution, float density){
+        super(actor);
         BodyDef def = new BodyDef();
         def.type = type;
         def.position.set(position);
@@ -33,11 +37,8 @@ public class CircleFigure extends Figure {
         fixture.density = density;
 
         body.createFixture(fixture);
+        body.setUserData(actor);
         bodyShape.dispose();
-    }
-
-    public CircleFigure(World world, BodyDef.BodyType type, Vector2 position, float radius){
-        this(world, type, position, radius, 0.2f, 0, 1);
     }
 
     private float getRadius() {
@@ -73,7 +74,7 @@ public class CircleFigure extends Figure {
     public void drawDebug(ShapeRenderer shapes) {
         Vector2 bodyPosition = body.getPosition();
 
-        shapes.setColor(Color.WHITE);
+        shapes.setColor(actor.getColor());
         shapes.circle(bodyPosition.x, bodyPosition.y, getRadius());
 
     }

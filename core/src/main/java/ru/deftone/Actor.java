@@ -1,6 +1,7 @@
 package ru.deftone;
 
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 
 import ru.deftone.figures.Figure;
+import ru.deftone.states.ActorState;
 
 /**
  * Created by deftone on 28.01.2018.
@@ -18,7 +20,7 @@ public class Actor extends Widget {
 
     private Figure figure;
 
-    private ActorState state;
+    private ru.deftone.states.ActorState state;
 
     public void setFigure(Figure figure){
         this.figure = figure;
@@ -28,7 +30,7 @@ public class Actor extends Widget {
         return figure;
     }
 
-    public ActorState getState() {
+    public ru.deftone.states.ActorState getState() {
         return state;
     }
 
@@ -77,10 +79,28 @@ public class Actor extends Widget {
 
     }
 
-    public void moveToTarget(float targetX, float targetY) {
-        Vector2 toTarget = new Vector2(targetX, targetY).sub(getBody().getWorldCenter()).scl(4);
-        getBody().setLinearVelocity(toTarget);
-        getBody().setAngularVelocity(0);
+    public void beginContact(Actor anotherActor) {
+        state.beginContact(anotherActor);
+    }
+
+    public void endContact(Actor anotherActor) {
+        state.endContact(anotherActor);
+    }
+
+    public boolean touchDown(float x, float y) {
+        return state.touchDown(x, y);
+    }
+
+    public void touchDragged(float x, float y) {
+        state.touchDragged(x, y);
+    }
+
+    public void touchUp(float x, float y) {
+        state.touchUp(x, y);
+    }
+
+    public Color getColor() {
+        return state.getColor();
     }
 
 }
