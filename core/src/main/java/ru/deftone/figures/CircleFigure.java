@@ -41,7 +41,7 @@ public class CircleFigure extends Figure {
         bodyShape.dispose();
     }
 
-    private float getRadius() {
+    public float getRadius() {
         Shape shape = getShape();
         if (shape == null) {
             return 0;
@@ -63,14 +63,12 @@ public class CircleFigure extends Figure {
         return getRadius();
     }
 
-    @Override
     public boolean contains(float x, float y) {
         Vector2 distance = new Vector2();
         distance.sub(x, y);
         return distance.len() <= getRadius();
     }
 
-    @Override
     public void drawDebug(ShapeRenderer shapes) {
         Vector2 bodyPosition = body.getPosition();
 

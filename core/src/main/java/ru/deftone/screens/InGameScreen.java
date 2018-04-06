@@ -61,7 +61,7 @@ public class InGameScreen extends ScreenAdapter {
 
         res.ball = new BallBuilder().build(
                 Helpers.toBox2d(new Vector2(screenWidth / 2, screenHeight / 2)),
-                Helpers.toBox2d(20));
+                Helpers.toBox2d(25));
         res.stage.addActor(res.ball);
 
         ActorBuilder builder = new StaticObstacleBuilder();
@@ -118,7 +118,7 @@ public class InGameScreen extends ScreenAdapter {
             if (obstacle.getState() instanceof HelpfulState)
                 helpfuls++;
         }
-        if (helpfuls == 0){
+        if (helpfuls < 2){
             Actor obstacle = res.obstacles.get(new Random().nextInt(res.obstacles.size()));
             obstacle.setState(new HelpfulState(obstacle));
         }

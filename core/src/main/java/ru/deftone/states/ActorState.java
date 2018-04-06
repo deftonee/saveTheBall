@@ -1,6 +1,7 @@
 package ru.deftone.states;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ru.deftone.Actor;
 
@@ -31,7 +32,11 @@ public abstract class ActorState {
     public void touchUp(float x, float y) {}
 
     public Color getColor() {
-        return null;
+        return Color.WHITE;
+    }
+
+    public boolean drawDebug(ShapeRenderer shapes) {
+        return false;
     }
 }
 

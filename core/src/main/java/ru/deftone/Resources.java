@@ -23,7 +23,7 @@ public class Resources implements Disposable {
     public Actor [] walls = new Actor[4];
     public List<Actor> obstacles = new ArrayList<Actor>(10);
     public int score = 0;
-    public int goal = 0;
+    public int goal = 10;
 //    public int time = 0;
 
     private Resources() {}

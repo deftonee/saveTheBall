@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 
 import ru.deftone.figures.Figure;
 import ru.deftone.states.ActorState;
+import ru.deftone.states.BallState;
 
 /**
  * Created by deftone on 28.01.2018.
@@ -20,7 +21,7 @@ public class Actor extends Widget {
 
     private Figure figure;
 
-    private ru.deftone.states.ActorState state;
+    private ActorState state;
 
     public void setFigure(Figure figure){
         this.figure = figure;
@@ -30,7 +31,7 @@ public class Actor extends Widget {
         return figure;
     }
 
-    public ru.deftone.states.ActorState getState() {
+    public ActorState getState() {
         return state;
     }
 
@@ -43,7 +44,8 @@ public class Actor extends Widget {
     }
 
     public void drawDebug(ShapeRenderer shapes) {
-        figure.drawDebug(shapes);
+        if (!state.drawDebug(shapes))
+            figure.drawDebug(shapes);
     }
 
     public Body getBody(){
@@ -103,4 +105,7 @@ public class Actor extends Widget {
         return state.getColor();
     }
 
+    public boolean isBall() {
+        return state instanceof BallState;
+    }
 }

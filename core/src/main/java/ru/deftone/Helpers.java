@@ -32,6 +32,13 @@ public class Helpers {
         return result;
     }
 
+    public static void moveActorToTarget(Actor actor, float targetX, float targetY) {
+        Vector2 toTarget = new Vector2(targetX, targetY).sub(actor.getBody().getWorldCenter());
+        toTarget.scl(4);
+        actor.getBody().setLinearVelocity(toTarget);
+    }
+
+
     public static float toBox2d(float x) {
         return x / PPM;
     }
@@ -39,14 +46,6 @@ public class Helpers {
     public static Vector2 toBox2d(Vector2 x) {
         return x.scl(1 / PPM);
     }
-
-//    public static float fromBox2d(float x) {
-//        return x * PPM;
-//    }
-//
-//    public static Vector2 fromBox2d(Vector2 x) {
-//        return x.scl(PPM);
-//    }
 
 
 }

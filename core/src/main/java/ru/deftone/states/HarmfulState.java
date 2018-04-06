@@ -1,9 +1,9 @@
 package ru.deftone.states;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
-
 import ru.deftone.Actor;
+import ru.deftone.Helpers;
+import ru.deftone.Resources;
 
 public class HarmfulState extends ActorState {
 
@@ -12,21 +12,21 @@ public class HarmfulState extends ActorState {
     }
 
     public boolean touchDown(float x, float y) {
+        actor.getBody().setAngularVelocity(0);
         return true;
     }
 
-    void moveToTarget(float targetX, float targetY) {
-        Vector2 toTarget = new Vector2(targetX, targetY).sub(actor.getBody().getWorldCenter());
-        toTarget.scl(4);
-        actor.getBody().setLinearVelocity(toTarget);
-        actor.getBody().setAngularVelocity(0);
-    }
-
     public void touchDragged(float x, float y) {
-        moveToTarget(x, y);
+        Helpers.moveActorToTarget(actor, x, y);
     }
 
     public Color getColor() {
         return Color.RED;
     }
+
+    public void beginContact(Actor anotherActor) {
+        if (anotherActor.isBall())
+            Resources.getInstance().score -= 1;
+    }
+
 }
