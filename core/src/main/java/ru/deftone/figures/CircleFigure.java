@@ -11,6 +11,8 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import ru.deftone.Actor;
+import ru.deftone.Helpers;
+import ru.deftone.states.LevelExitState;
 
 /**
  * Created by deftone on 02.02.2018.
@@ -18,17 +20,16 @@ import ru.deftone.Actor;
 
 public class CircleFigure extends Figure {
 
-    public CircleFigure(Actor actor, World world, BodyDef.BodyType type,
+    public CircleFigure(Actor actor, World world,
                         Vector2 position, float radius,
                         float friction, float restitution, float density){
         super(actor);
         BodyDef def = new BodyDef();
-        def.type = type;
-        def.position.set(position);
+        def.position.set(Helpers.toBox2d(position));
         body = world.createBody(def);
 
         Shape bodyShape = new CircleShape();
-        bodyShape.setRadius(radius);
+        bodyShape.setRadius(Helpers.toBox2d(radius));
 
         FixtureDef fixture = new FixtureDef();
         fixture.shape = bodyShape;
@@ -46,8 +47,7 @@ public class CircleFigure extends Figure {
         if (shape == null) {
             return 0;
         } else {
-            return getShape().getRadius();
-
+            return shape.getRadius();
         }
     }
 
@@ -56,11 +56,11 @@ public class CircleFigure extends Figure {
     }
 
     public float getWidth(){
-        return getRadius();
+        return getRadius() * 2;
     }
 
     public float getHeight(){
-        return getRadius();
+        return getRadius() * 2;
     }
 
     public boolean contains(float x, float y) {
@@ -70,6 +70,8 @@ public class CircleFigure extends Figure {
     }
 
     public void drawDebug(ShapeRenderer shapes) {
+//        if (actor.getState() instanceof LevelExitState)
+//            System.out.println("===================");
         Vector2 bodyPosition = body.getPosition();
 
         shapes.setColor(actor.getColor());

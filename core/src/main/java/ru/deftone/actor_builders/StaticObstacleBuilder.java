@@ -30,7 +30,8 @@ public class StaticObstacleBuilder extends ActorBuilder {
                 new Vector2(size.x, size.y),
                 new Vector2(-size.x, size.y)
         };
-        return new PolygonFigure(actor, world, BodyDef.BodyType.StaticBody,
+        return new PolygonFigure(
+                actor, world,
                 position, vertices,
                 defaultFriction, defaultRestitution, defaultDensity);
     }

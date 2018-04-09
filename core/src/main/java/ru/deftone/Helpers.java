@@ -48,4 +48,9 @@ public class Helpers {
     }
 
 
+    public static Vector2[] toBox2d(Vector2[] x) {
+        for (Vector2 v : x)
+            v.scl(1 / PPM);
+        return x;
+    }
 }

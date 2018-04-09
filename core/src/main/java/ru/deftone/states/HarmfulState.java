@@ -26,7 +26,7 @@ public class HarmfulState extends ActorState {
 
     public void beginContact(Actor anotherActor) {
         if (anotherActor.isBall())
-            Resources.getInstance().score -= 1;
+            Resources.getInstance().decScore();
     }
 
 }

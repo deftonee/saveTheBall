@@ -21,17 +21,16 @@ import ru.deftone.Helpers;
 
 public class PolygonFigure extends Figure {
 
-    public PolygonFigure(Actor actor, World world, BodyDef.BodyType type,
+    public PolygonFigure(Actor actor, World world,
                          Vector2 position, Vector2 [] vertices,
                          float friction, float restitution, float density){
         super(actor);
         BodyDef def = new BodyDef();
-        def.type = type;
-        def.position.set(position);
+        def.position.set(Helpers.toBox2d(position));
         body = world.createBody(def);
 
         PolygonShape bodyShape = new PolygonShape();
-        bodyShape.set(vertices);
+        bodyShape.set(Helpers.toBox2d(vertices));
         FixtureDef fixture = new FixtureDef();
         fixture.shape = bodyShape;
         fixture.friction = friction;
@@ -96,6 +95,7 @@ public class PolygonFigure extends Figure {
         float min = Float.MAX_VALUE;
         float max = -Float.MAX_VALUE;
         for (int i = 1; i < vertices.length; i += 2){
+            // TODO do it like i saw in the algorithms book
             if (vertices[i] > max)
                 max = vertices[i];
             if (vertices[i] < min)

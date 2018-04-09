@@ -38,5 +38,8 @@ public abstract class ActorState {
     public boolean drawDebug(ShapeRenderer shapes) {
         return false;
     }
+
+    public void act(float delta) {}
+
 }
 

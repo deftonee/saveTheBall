@@ -24,7 +24,7 @@ public class HelpfulState extends ActorState {
     public void beginContact(Actor anotherActor) {
         if (anotherActor.isBall()) {
             actor.setState(new HarmfulState(actor));
-            Resources.getInstance().score += 1;
+            Resources.getInstance().incScore();
         }
     }
 

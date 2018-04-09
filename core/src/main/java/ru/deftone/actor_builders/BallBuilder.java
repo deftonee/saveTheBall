@@ -21,10 +21,12 @@ public class BallBuilder extends ActorBuilder {
 
 
     Figure getFigure(Actor actor, World world, Vector2 position, float ... params) {
-        return new CircleFigure(
-                actor, world, BodyDef.BodyType.DynamicBody,
+        Figure figure = new CircleFigure(
+                actor, world,
                 position, params[0],
                 defaultFriction, defaultRestitution, defaultDensity);
+        figure.getBody().setType(BodyDef.BodyType.DynamicBody);
+        return figure;
     }
 
     ActorState getState(Actor actor) {

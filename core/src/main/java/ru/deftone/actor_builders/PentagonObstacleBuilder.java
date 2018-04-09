@@ -25,9 +25,11 @@ public class PentagonObstacleBuilder extends DynamicObstacleBuilder {
             Random r = new Random();
             radius = (r.nextFloat() * (MAX_SIZE - MIN_SIZE) + MIN_SIZE) / 2;
         }
-        return new PolygonFigure(actor, world, BodyDef.BodyType.DynamicBody,
+        Figure figure = new PolygonFigure(actor, world,
                 position, Helpers.calcRegularPolygonVertices(radius, 5),
                 defaultFriction, defaultRestitution, defaultDensity);
+        figure.getBody().setType(BodyDef.BodyType.DynamicBody);
+        return figure;
     }
 
     String getName() {

@@ -16,6 +16,7 @@ import ru.deftone.actor_builders.BallBuilder;
 import ru.deftone.Resources;
 import ru.deftone.actor_builders.CircleObstacleBuilder;
 import ru.deftone.actor_builders.HexagonObstacleBuilder;
+import ru.deftone.actor_builders.LevelExitBuilder;
 import ru.deftone.actor_builders.PentagonObstacleBuilder;
 import ru.deftone.actor_builders.RectangleObstacleBuilder;
 import ru.deftone.actor_builders.StaticObstacleBuilder;
@@ -49,81 +50,81 @@ public class InGameScreen extends ScreenAdapter {
 
         Resources res = Resources.getInstance();
 
-        ScreenViewport sv = new ScreenViewport();
-        sv.setUnitsPerPixel(Helpers.toBox2d(sv.getUnitsPerPixel()));
-        res.stage = new Stage(sv);
+        res.createStage();
+        res.setGoal(3);
+        Gdx.input.setInputProcessor(res.getStage());
 
-        Gdx.input.setInputProcessor(res.stage);
+        World world = new World(new Vector2(0, 0), true);
+        res.setWorld(world);
+        world.setContactListener(new CollisionListener());
 
-        res.world = new World(new Vector2(0, 0), true);
-
-        res.world.setContactListener(new CollisionListener());
-
-        res.ball = new BallBuilder().build(
-                Helpers.toBox2d(new Vector2(screenWidth / 2, screenHeight / 2)),
-                Helpers.toBox2d(25));
-        res.stage.addActor(res.ball);
+        res.setBall(
+                new BallBuilder().build(
+                        new Vector2(screenWidth / 2, screenHeight / 2), 25));
 
         ActorBuilder builder = new StaticObstacleBuilder();
         // upper
-        res.walls[0] = builder.build(
-                Helpers.toBox2d(new Vector2(screenWidth / 2, WALL_THICKNESS / 2)),
-                Helpers.toBox2d(screenWidth), Helpers.toBox2d(WALL_THICKNESS));
-        //bottom
-        res.walls[1] = builder.build(
-                Helpers.toBox2d(new Vector2(screenWidth / 2, screenHeight - WALL_THICKNESS / 2)),
-                Helpers.toBox2d(screenWidth), Helpers.toBox2d(WALL_THICKNESS));
-        //left
-        res.walls[2] = builder.build(
-                Helpers.toBox2d(new Vector2(WALL_THICKNESS / 2, screenHeight / 2)),
-                Helpers.toBox2d(WALL_THICKNESS), Helpers.toBox2d(screenHeight));
-        //right
-        res.walls[3] = builder.build(
-                Helpers.toBox2d(new Vector2(screenWidth - WALL_THICKNESS / 2, screenHeight / 2)),
-                Helpers.toBox2d(WALL_THICKNESS), Helpers.toBox2d(screenHeight));
+        res.addWall(builder.build(
+                new Vector2(screenWidth / 2, -1 - WALL_THICKNESS / 2),
+                screenWidth, WALL_THICKNESS
+        ), 0);
+        // bottom
+        res.addWall(builder.build(
+                new Vector2(screenWidth / 2, screenHeight + WALL_THICKNESS / 2 + 1),
+                screenWidth, WALL_THICKNESS
+        ), 1);
+        // left
+        res.addWall(builder.build(
+                new Vector2(0 - WALL_THICKNESS / 2, screenHeight / 2),
+                WALL_THICKNESS, screenHeight
+        ), 2);
+        // right
+        res.addWall(builder.build(
+                new Vector2(screenWidth + WALL_THICKNESS / 2 + 1, screenHeight / 2),
+                WALL_THICKNESS, screenHeight
+        ), 3);
 
-        for (Actor wall: res.walls){
-            res.stage.addActor(wall);
-        }
-
-        Random r = new Random();
-
+        Random random = new Random();
         for (int i = 0; i < FIGURE_NUMBER; i++){
             try {
                 builder = (ActorBuilder) obstacleTypes[
-                        r.nextInt(obstacleTypes.length)].newInstance();
-                Actor obstacle = builder.build(Helpers.toBox2d(new Vector2(
-                        r.nextFloat() * (screenWidth - builder.MAX_SIZE) + builder.MAX_SIZE,
-                        r.nextFloat() * (screenHeight - builder.MAX_SIZE) + builder.MAX_SIZE
-                )));
-                res.obstacles.add(obstacle);
-                res.stage.addActor(obstacle);
+                        random.nextInt(obstacleTypes.length)].newInstance();
+                res.addObstacle(builder.build());
             }
             catch (InstantiationException e) { e.printStackTrace(); }
             catch (IllegalAccessException e) { e.printStackTrace(); }
         }
 
-        res.ball.getBody().setLinearVelocity(new Vector2(10,20));
+        res.getBall().getBody().setLinearVelocity(new Vector2(10,20));
 
-        res.stage.getRoot().setDebug(true, true);
+        res.getStage().getRoot().setDebug(true, true);
 
     }
 
     public void render(float delta) {
-        Resources res = Resources.getInstance();
-        res.stage.act();
-        int helpfuls = 0;
+        Random random = new Random();
 
-        for (Actor obstacle: res.obstacles) {
+        Resources res = Resources.getInstance();
+        res.getStage().act();
+        int helpfulOnes = 0;
+
+        for (Actor obstacle: res.getObstacles()) {
             if (obstacle.getState() instanceof HelpfulState)
-                helpfuls++;
+                helpfulOnes++;
         }
-        if (helpfuls < 2){
-            Actor obstacle = res.obstacles.get(new Random().nextInt(res.obstacles.size()));
+        if (helpfulOnes < 2){
+            Actor obstacle = res.getObstacles().get(random.nextInt(res.getObstacles().size()));
             obstacle.setState(new HelpfulState(obstacle));
         }
 
-        res.world.step(delta, 6, 2);
+//        System.out.println(res.getScore());
+        if (res.getLevelExit() == null && res.goalAchieved())
+            res.setLevelExit(new LevelExitBuilder().build());
+        else if (res.getLevelExit() != null && !res.goalAchieved())
+            res.setLevelExit(null);
+
+        res.getWorld().step(delta, 6, 2);
+
         res.draw();
     }
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
+import com.badlogic.gdx.utils.Disposable;
 
 import ru.deftone.figures.Figure;
 import ru.deftone.states.ActorState;
@@ -17,7 +18,7 @@ import ru.deftone.states.BallState;
  * Created by deftone on 28.01.2018.
  */
 
-public class Actor extends Widget {
+public class Actor extends Widget implements Disposable {
 
     private Figure figure;
 
@@ -54,16 +55,23 @@ public class Actor extends Widget {
 
     public void act(float delta) {
         super.act(delta);
+        state.act(delta);
         Vector2 position = figure.getPosition();
-        setBounds(position.x, position.y, figure.getWidth(), figure.getHeight());
+        setBounds(position.x, position.y, getWidth(), getHeight());
     }
 
     public float getWidth() {
-        return figure.getWidth();
+        float result = super.getWidth();
+        if (result == 0)
+            result = figure.getWidth();
+        return result;
     }
 
     public float getHeight() {
-        return figure.getHeight();
+        float result = super.getHeight();
+        if (result == 0)
+            result = figure.getHeight();
+        return result;
     }
 
     public Vector2 getPosition(){
@@ -108,4 +116,25 @@ public class Actor extends Widget {
     public boolean isBall() {
         return state instanceof BallState;
     }
+
+    public float maxX() {
+        return getPosition().x + getWidth() / 2;
+    }
+
+    public float minX() {
+        return getPosition().x - getWidth() / 2;
+    }
+
+    public float maxY() {
+        return getPosition().y + getHeight() / 2;
+    }
+
+    public float minY() {
+        return getPosition().y - getHeight() / 2;
+    }
+
+    public void dispose() {
+        figure.dispose();
+    }
+
 }

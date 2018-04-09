@@ -4,18 +4,23 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 
-import ru.deftone.Actor;
-import ru.deftone.figures.Figure;
-import ru.deftone.Helpers;
-import ru.deftone.figures.PolygonFigure;
-
 import java.util.Random;
+
+import ru.deftone.Actor;
+import ru.deftone.figures.CircleFigure;
+import ru.deftone.figures.Figure;
+import ru.deftone.states.ActorState;
+import ru.deftone.states.LevelExitState;
 
 /**
  * Created by deftone on 04.02.2018.
  */
 
-public class TriangleObstacleBuilder extends DynamicObstacleBuilder {
+public class LevelExitBuilder extends ActorBuilder {
+
+    public float defaultFriction = 1;
+    public float defaultRestitution = 1;
+    public float defaultDensity = 1;
 
     Figure getFigure(Actor actor, World world, Vector2 position, float ... params) {
         float radius;
@@ -25,15 +30,19 @@ public class TriangleObstacleBuilder extends DynamicObstacleBuilder {
             Random r = new Random();
             radius = (r.nextFloat() * (MAX_SIZE - MIN_SIZE) + MIN_SIZE) / 2;
         }
-        Figure figure = new PolygonFigure(actor, world,
-                position, Helpers.calcRegularPolygonVertices(radius, 3),
+        Figure figure = new CircleFigure(
+                actor, world,
+                position, radius,
                 defaultFriction, defaultRestitution, defaultDensity);
-        figure.getBody().setType(BodyDef.BodyType.DynamicBody);
+        figure.getBody().setActive(false);
         return figure;
     }
 
-    String getName() {
-        return "Triangle obstacle";
+    ActorState getState(Actor actor) {
+        return new LevelExitState(actor);
     }
 
+    String getName() {
+        return "Level exit";
+    }
 }

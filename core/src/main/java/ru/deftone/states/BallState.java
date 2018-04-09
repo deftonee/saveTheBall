@@ -25,9 +25,13 @@ public class BallState extends ActorState {
         Resources res = Resources.getInstance();
         float radius = ((CircleFigure) actor.getFigure()).getRadius();
         shapes.setColor(Color.BLUE);
-        shapes.arc(bodyPosition.x, bodyPosition.y, radius, 0, res.score / res.goal * 360);
+        shapes.arc(
+                bodyPosition.x, bodyPosition.y, radius,
+                0, res.getScore() / res.getGoal() * 360);
         shapes.setColor(Color.WHITE);
-        shapes.arc(bodyPosition.x, bodyPosition.y, radius, 0, (1 - res.score / res.goal) * 360);
+        shapes.arc(
+                bodyPosition.x, bodyPosition.y, radius,
+                res.getScore() / res.getGoal() * 360, (1 - res.getScore() / res.getGoal()) * 360);
         return true;
     }
 }

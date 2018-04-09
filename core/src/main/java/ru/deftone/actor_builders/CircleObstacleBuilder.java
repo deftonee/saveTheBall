@@ -24,9 +24,12 @@ public class CircleObstacleBuilder extends DynamicObstacleBuilder {
             Random r = new Random();
             radius = (r.nextFloat() * (MAX_SIZE - MIN_SIZE) + MIN_SIZE) / 2;
         }
-        return new CircleFigure(actor, world, BodyDef.BodyType.DynamicBody,
+        Figure figure = new CircleFigure(
+                actor, world,
                 position, radius,
                 defaultFriction, defaultRestitution, defaultDensity);
+        figure.getBody().setType(BodyDef.BodyType.DynamicBody);
+        return figure;
     }
 
     String getName() {

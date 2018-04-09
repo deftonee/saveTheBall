@@ -33,10 +33,12 @@ public class RectangleObstacleBuilder extends DynamicObstacleBuilder {
                 new Vector2(size.x, size.y),
                 new Vector2(-size.x, size.y)
         };
-        return new PolygonFigure(
-                actor, world, BodyDef.BodyType.DynamicBody,
+        Figure figure = new PolygonFigure(
+                actor, world,
                 position, vertices,
                 defaultFriction, defaultRestitution, defaultDensity);
+        figure.getBody().setType(BodyDef.BodyType.DynamicBody);
+        return figure;
     }
 
     String getName() {
