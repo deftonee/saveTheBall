@@ -1,5 +1,8 @@
 package ru.deftone;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -38,7 +41,6 @@ public class Helpers {
         actor.getBody().setLinearVelocity(toTarget);
     }
 
-
     public static float toBox2d(float x) {
         return x / PPM;
     }
@@ -47,10 +49,18 @@ public class Helpers {
         return x.scl(1 / PPM);
     }
 
-
     public static Vector2[] toBox2d(Vector2[] x) {
         for (Vector2 v : x)
             v.scl(1 / PPM);
         return x;
+    }
+
+    public static Texture generateColoredTexture(Color color) {
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGB888);
+        pixmap.setColor(color);
+        pixmap.fill();
+        Texture result = new Texture(pixmap);
+        pixmap.dispose();
+        return result;
     }
 }

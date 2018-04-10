@@ -95,7 +95,8 @@ public class Resources implements Disposable {
     }
 
     public void incScore() {
-        score++;
+        if (score < goal)
+            score++;
     }
 
     public void decScore() {

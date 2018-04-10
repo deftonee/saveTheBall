@@ -17,12 +17,15 @@ public class LevelExitState extends ActorState {
 
     public void act(float delta) {
         Resources res = Resources.getInstance();
-        Actor ball = res.getBall();
-        if (ball.maxX() < actor.maxX() &&
-                ball.minX() > actor.minX() &&
-                ball.maxY() < actor.maxY() &&
-                ball.minY() > actor.minY()) {
-            System.out.println("WIN!!!");
+        if (res.goalAchieved()) {
+            Actor ball = res.getBall();
+            if (ball.maxX() < actor.maxX() &&
+                    ball.minX() > actor.minX() &&
+                    ball.maxY() < actor.maxY() &&
+                    ball.minY() > actor.minY()) {
+                System.out.println("WIN!!!");
+        } else
+            actor.setState(new InactiveLevelExitState(actor));
         }
     }
 

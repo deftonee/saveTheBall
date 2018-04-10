@@ -1,16 +1,13 @@
 package ru.deftone.actor_builders;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
-
 import java.util.Random;
-
 import ru.deftone.Actor;
 import ru.deftone.figures.CircleFigure;
 import ru.deftone.figures.Figure;
 import ru.deftone.states.ActorState;
-import ru.deftone.states.LevelExitState;
+import ru.deftone.states.InactiveLevelExitState;
 
 /**
  * Created by deftone on 04.02.2018.
@@ -39,7 +36,7 @@ public class LevelExitBuilder extends ActorBuilder {
     }
 
     ActorState getState(Actor actor) {
-        return new LevelExitState(actor);
+        return new InactiveLevelExitState(actor);
     }
 
     String getName() {

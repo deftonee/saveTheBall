@@ -95,6 +95,8 @@ public class InGameScreen extends ScreenAdapter {
             catch (IllegalAccessException e) { e.printStackTrace(); }
         }
 
+        res.setLevelExit(new LevelExitBuilder().build());
+
         res.getBall().getBody().setLinearVelocity(new Vector2(10,20));
 
         res.getStage().getRoot().setDebug(true, true);
@@ -116,12 +118,6 @@ public class InGameScreen extends ScreenAdapter {
             Actor obstacle = res.getObstacles().get(random.nextInt(res.getObstacles().size()));
             obstacle.setState(new HelpfulState(obstacle));
         }
-
-//        System.out.println(res.getScore());
-        if (res.getLevelExit() == null && res.goalAchieved())
-            res.setLevelExit(new LevelExitBuilder().build());
-        else if (res.getLevelExit() != null && !res.goalAchieved())
-            res.setLevelExit(null);
 
         res.getWorld().step(delta, 6, 2);
 

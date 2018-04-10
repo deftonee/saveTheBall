@@ -1,6 +1,5 @@
 package ru.deftone.figures;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -9,10 +8,8 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
-
 import ru.deftone.Actor;
 import ru.deftone.Helpers;
-import ru.deftone.states.LevelExitState;
 
 /**
  * Created by deftone on 02.02.2018.
@@ -70,8 +67,6 @@ public class CircleFigure extends Figure {
     }
 
     public void drawDebug(ShapeRenderer shapes) {
-//        if (actor.getState() instanceof LevelExitState)
-//            System.out.println("===================");
         Vector2 bodyPosition = body.getPosition();
 
         shapes.setColor(actor.getColor());
