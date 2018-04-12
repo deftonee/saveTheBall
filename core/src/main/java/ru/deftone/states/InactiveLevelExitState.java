@@ -9,10 +9,7 @@ public class InactiveLevelExitState extends ActorState {
 
     public InactiveLevelExitState(Actor actor) {
         super(actor);
-    }
-
-    public Color getColor() {
-        return Color.BLACK;
+        actor.setVisible(false);
     }
 
     public void act(float delta) {

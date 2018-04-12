@@ -9,6 +9,7 @@ public class LevelExitState extends ActorState {
 
     public LevelExitState(Actor actor) {
         super(actor);
+        actor.setVisible(true);
     }
 
     public Color getColor() {

@@ -1,16 +1,15 @@
 package ru.deftone.figures;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
-
-import java.util.Arrays;
 
 import ru.deftone.Actor;
 import ru.deftone.Helpers;
@@ -19,18 +18,26 @@ import ru.deftone.Helpers;
  * Created by deftone on 02.02.2018.
  */
 
-public class PolygonFigure extends Figure {
+public class PolygonFigure extends Polygon implements Figure {
+
+    private Body body;
+    private Actor actor;
 
     public PolygonFigure(Actor actor, World world,
                          Vector2 position, Vector2 [] vertices,
                          float friction, float restitution, float density){
-        super(actor);
+        super();
+        position = Helpers.toBox2d(position);
+        vertices = Helpers.toBox2d(vertices);
+        setPosition(0, 0);
+        setVertices(Helpers.changeVerticesRepresentation(vertices));
+        this.actor = actor;
         BodyDef def = new BodyDef();
-        def.position.set(Helpers.toBox2d(position));
+        def.position.set(position);
         body = world.createBody(def);
 
         PolygonShape bodyShape = new PolygonShape();
-        bodyShape.set(Helpers.toBox2d(vertices));
+        bodyShape.set(vertices);
         FixtureDef fixture = new FixtureDef();
         fixture.shape = bodyShape;
         fixture.friction = friction;
@@ -43,9 +50,10 @@ public class PolygonFigure extends Figure {
 
     }
 
+    public void draw(Batch batch, float parentAlpha) {}
 
-    public void draw(Batch batch, float parentAlpha) {
-
+    public Vector2 getPosition() {
+        return body.getPosition();
     }
 
     private static float [] getPolygonVerticesFromShape(Shape shape, Vector2 origin,
@@ -68,7 +76,7 @@ public class PolygonFigure extends Figure {
     }
 
     public float getWidth() {
-        Shape shape = getShape();
+        Shape shape = Helpers.getShapeFromBody(body);
         if (shape == null)
             return 0;
 
@@ -86,7 +94,7 @@ public class PolygonFigure extends Figure {
     }
 
     public float getHeight() {
-        Shape shape = getShape();
+        Shape shape = Helpers.getShapeFromBody(body);
         if (shape == null)
             return 0;
 
@@ -104,27 +112,25 @@ public class PolygonFigure extends Figure {
         return max - min;
     }
 
-    public boolean contains(float x, float y) {
-        Shape shape = getShape();
-        if (shape == null)
-            return false;
-
-        float [] vertices = getPolygonVerticesFromShape(
-                shape, new Vector2(), body.getAngle(), true);
-        return Helpers.insidePolygon(
-                Arrays.copyOfRange(vertices, 0, vertices.length / 2),
-                Arrays.copyOfRange(vertices, vertices.length / 2, vertices.length),
-                x, y);
-    }
-
     public void drawDebug(ShapeRenderer shapes) {
-        Shape shape = getShape();
+        Shape shape = Helpers.getShapeFromBody(body);
         if (shapes == null)
             return;
         Vector2 bodyPosition = body.getPosition();
 
         shapes.setColor(actor.getColor());
         shapes.polygon(getPolygonVerticesFromShape(shape, bodyPosition, body.getAngle(), false));
+    }
 
+    public Body getBody() {
+        return body;
+    }
+
+    public void moveToPosition(float x, float y) {
+        body.setTransform(x, y, body.getAngle());
+    }
+
+    public void dispose() {
+        body.getWorld().destroyBody(body);
     }
 }

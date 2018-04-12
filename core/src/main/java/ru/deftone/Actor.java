@@ -78,9 +78,8 @@ public class Actor extends Widget implements Disposable {
         return figure.getPosition();
     }
 
-    public void setPosition(float x, float y){
-        figure.setPosition(x, y);
-        super.setPosition(x, y);
+    public void moveToPosition(float x, float y){
+        figure.moveToPosition(x, y);
     }
 
     public com.badlogic.gdx.scenes.scene2d.Actor hit (float x, float y, boolean touchable) {

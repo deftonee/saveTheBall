@@ -26,20 +26,8 @@ public class Resources implements Disposable {
     private List<Actor> obstacles = new ArrayList<Actor>(10);
     private int score = 0;
     private int goal = 0;
-//    public int time = 0;
 
     private Resources() {}
-
-    public void draw() {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        Gdx.gl.glDisable(GL20.GL_BLEND);
-
-        stage.draw();
-
-    }
 
     public static Resources getInstance() {
         if (instance == null){
@@ -47,6 +35,7 @@ public class Resources implements Disposable {
         }
         return instance;
     }
+
     public Actor getBall() {
         return ball;
     }

@@ -1,19 +1,16 @@
 package ru.deftone.screens;
 
-import java.util.Random;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import java.util.Random;
 import ru.deftone.Actor;
-import ru.deftone.Helpers;
+import ru.deftone.Resources;
 import ru.deftone.actor_builders.ActorBuilder;
 import ru.deftone.actor_builders.BallBuilder;
-import ru.deftone.Resources;
 import ru.deftone.actor_builders.CircleObstacleBuilder;
 import ru.deftone.actor_builders.HexagonObstacleBuilder;
 import ru.deftone.actor_builders.LevelExitBuilder;
@@ -43,7 +40,7 @@ public class InGameScreen extends ScreenAdapter {
             HexagonObstacleBuilder.class
     };
 
-    public InGameScreen(Game game){
+    public InGameScreen(Game game) {
 
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
@@ -107,7 +104,6 @@ public class InGameScreen extends ScreenAdapter {
         Random random = new Random();
 
         Resources res = Resources.getInstance();
-        res.getStage().act();
         int helpfulOnes = 0;
 
         for (Actor obstacle: res.getObstacles()) {
@@ -120,8 +116,14 @@ public class InGameScreen extends ScreenAdapter {
         }
 
         res.getWorld().step(delta, 6, 2);
+        res.getStage().act(delta);
 
-        res.draw();
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        Gdx.gl.glDisable(GL20.GL_BLEND);
+        res.getStage().draw();
     }
 
     public void dispose() {

@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.Shape;
 
 /**
  * Created by deftone on 12.03.2018.
@@ -19,18 +22,6 @@ public class Helpers {
         for(int i = 0; i < n; i++) {
             buffer.rotate(360 / n);
             result[i] = new Vector2(buffer);
-        }
-        return result;
-    }
-
-    public static boolean insidePolygon(float[] xArray, float[] yArray, float x, float y) {
-        int n = xArray.length;
-        int i, j;
-        boolean result = false;
-        for (i = 0, j = n - 1; i < n; j = i++) {
-            if (((yArray[i] > y) != (yArray[j] > y)) &&
-                    (x < (xArray[j] - xArray[i]) * (y - yArray[i]) / (yArray[j] - yArray[i]) + xArray[i]))
-                result = !result;
         }
         return result;
     }
@@ -63,4 +54,23 @@ public class Helpers {
         pixmap.dispose();
         return result;
     }
+
+    public static Shape getShapeFromBody(Body body) {
+        for (Fixture f: body.getFixtureList()) {
+            if (f.getBody() == body) {
+                return f.getShape();
+            }
+        }
+        return null;
+    }
+
+    public static float[] changeVerticesRepresentation(Vector2[] vertices) {
+        float[] result = new float[vertices.length * 2];
+        for (int i = 0; i < vertices.length; i++) {
+            result[2 * i] = vertices[i].x;
+            result[2 * i + 1] = vertices[i].y;
+        }
+        return result;
+    }
+
 }
