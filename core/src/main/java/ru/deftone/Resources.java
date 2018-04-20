@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -24,6 +25,7 @@ public class Resources implements Disposable {
     private Actor levelExit;
     private Actor [] walls = new Actor[4];
     private List<Actor> obstacles = new ArrayList<Actor>(10);
+    private Window menu;
     private int score = 0;
     private int goal = 0;
 
@@ -99,7 +101,7 @@ public class Resources implements Disposable {
 
     public void createStage() {
         ScreenViewport sv = new ScreenViewport();
-        sv.setUnitsPerPixel(Helpers.toBox2d(sv.getUnitsPerPixel()));
+        sv.setUnitsPerPixel(Helpers.toBox2d(1));
         stage = new Stage(sv);
     }
 
@@ -130,5 +132,14 @@ public class Resources implements Disposable {
     public void dispose() {
         stage.dispose();
         world.dispose();
+    }
+
+    public Window getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Window menu) {
+        this.menu = menu;
+        stage.addActor(menu);
     }
 }

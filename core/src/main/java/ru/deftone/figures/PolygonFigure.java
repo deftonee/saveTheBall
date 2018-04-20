@@ -10,7 +10,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
-
 import ru.deftone.Actor;
 import ru.deftone.Helpers;
 
@@ -27,15 +26,21 @@ public class PolygonFigure extends Polygon implements Figure {
                          Vector2 position, Vector2 [] vertices,
                          float friction, float restitution, float density){
         super();
+
+        // convert values
         position = Helpers.toBox2d(position);
         vertices = Helpers.toBox2d(vertices);
+
+        // polygon settings
         setPosition(0, 0);
         setVertices(Helpers.changeVerticesRepresentation(vertices));
+
         this.actor = actor;
+
+        // creating body
         BodyDef def = new BodyDef();
         def.position.set(position);
         body = world.createBody(def);
-
         PolygonShape bodyShape = new PolygonShape();
         bodyShape.set(vertices);
         FixtureDef fixture = new FixtureDef();
@@ -43,7 +48,6 @@ public class PolygonFigure extends Polygon implements Figure {
         fixture.friction = friction;
         fixture.restitution = restitution;
         fixture.density = density;
-
         body.createFixture(fixture);
         body.setUserData(actor);
         bodyShape.dispose();

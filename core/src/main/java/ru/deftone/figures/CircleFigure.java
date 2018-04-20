@@ -26,23 +26,27 @@ public class CircleFigure extends Circle implements Figure {
                         Vector2 position, float radius,
                         float friction, float restitution, float density){
         super();
+
+        // convert values
         position = Helpers.toBox2d(position);
         radius = Helpers.toBox2d(radius);
+
+        // circle settings
         set(0, 0, radius);
+
         this.actor = actor;
+
+        // creating body
         BodyDef def = new BodyDef();
         def.position.set(position);
         body = world.createBody(def);
-
         Shape bodyShape = new CircleShape();
         bodyShape.setRadius(radius);
-
         FixtureDef fixture = new FixtureDef();
         fixture.shape = bodyShape;
         fixture.friction = friction;
         fixture.restitution = restitution;
         fixture.density = density;
-
         body.createFixture(fixture);
         body.setUserData(actor);
         bodyShape.dispose();

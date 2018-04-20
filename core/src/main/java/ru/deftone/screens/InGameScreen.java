@@ -2,12 +2,20 @@ package ru.deftone.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
 import java.util.Random;
 import ru.deftone.Actor;
+import ru.deftone.Helpers;
 import ru.deftone.Resources;
 import ru.deftone.actor_builders.ActorBuilder;
 import ru.deftone.actor_builders.BallBuilder;
@@ -19,6 +27,7 @@ import ru.deftone.actor_builders.RectangleObstacleBuilder;
 import ru.deftone.actor_builders.StaticObstacleBuilder;
 import ru.deftone.actor_builders.TriangleObstacleBuilder;
 import ru.deftone.listeners.CollisionListener;
+import ru.deftone.listeners.GestureListener;
 import ru.deftone.states.HelpfulState;
 
 
@@ -27,12 +36,16 @@ import ru.deftone.states.HelpfulState;
  */
 
 public class InGameScreen extends ScreenAdapter {
-    float WALL_THICKNESS = 4;
 
-    int FIGURE_NUMBER = 5;
+    private float WALL_THICKNESS = 4;
+    private int FIGURE_NUMBER = 5;
+    GameState state;
+    enum GameState {
+        Running,
+        Paused
+    }
 
-
-    public static Class [] obstacleTypes = {
+    private static Class [] obstacleTypes = {
             RectangleObstacleBuilder.class,
             CircleObstacleBuilder.class,
             TriangleObstacleBuilder.class,
@@ -44,12 +57,15 @@ public class InGameScreen extends ScreenAdapter {
 
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
-
+        state = GameState.Running;
         Resources res = Resources.getInstance();
 
         res.createStage();
         res.setGoal(3);
-        Gdx.input.setInputProcessor(res.getStage());
+        InputMultiplexer im = new InputMultiplexer();
+        im.addProcessor(new GestureDetector(new GestureListener(this)));
+        im.addProcessor(res.getStage());
+        Gdx.input.setInputProcessor(im);
 
         World world = new World(new Vector2(0, 0), true);
         res.setWorld(world);
@@ -93,6 +109,11 @@ public class InGameScreen extends ScreenAdapter {
         }
 
         res.setLevelExit(new LevelExitBuilder().build());
+        Skin skin = new Skin(Gdx.files.internal("vis/skin/x1/uiskin.json"));
+        Window menu = new Window("Pause menu", skin);
+        menu.add(new TextButton("Close", skin));
+        menu.setVisible(false);
+        res.setMenu(menu);
 
         res.getBall().getBody().setLinearVelocity(new Vector2(10,20));
 
@@ -101,22 +122,26 @@ public class InGameScreen extends ScreenAdapter {
     }
 
     public void render(float delta) {
-        Random random = new Random();
 
         Resources res = Resources.getInstance();
-        int helpfulOnes = 0;
 
-        for (Actor obstacle: res.getObstacles()) {
-            if (obstacle.getState() instanceof HelpfulState)
-                helpfulOnes++;
-        }
-        if (helpfulOnes < 2){
-            Actor obstacle = res.getObstacles().get(random.nextInt(res.getObstacles().size()));
-            obstacle.setState(new HelpfulState(obstacle));
-        }
+        if (state == GameState.Running) {
+            Random random = new Random();
 
-        res.getWorld().step(delta, 6, 2);
-        res.getStage().act(delta);
+            int helpfulOnes = 0;
+
+            for (Actor obstacle : res.getObstacles()) {
+                if (obstacle.getState() instanceof HelpfulState)
+                    helpfulOnes++;
+            }
+            if (helpfulOnes < 2) {
+                Actor obstacle = res.getObstacles().get(random.nextInt(res.getObstacles().size()));
+                obstacle.setState(new HelpfulState(obstacle));
+            }
+
+            res.getWorld().step(delta, 6, 2);
+            res.getStage().act(delta);
+        }
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -124,6 +149,20 @@ public class InGameScreen extends ScreenAdapter {
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glDisable(GL20.GL_BLEND);
         res.getStage().draw();
+    }
+
+    public void pause() {
+        state = GameState.Paused;
+        Resources res = Resources.getInstance();
+        ((ScreenViewport) res.getStage().getViewport()).setUnitsPerPixel(1);
+        res.getMenu().setVisible(true);
+    }
+
+    public void resume() {
+        state = GameState.Running;
+        Resources res = Resources.getInstance();
+        ((ScreenViewport) res.getStage().getViewport()).setUnitsPerPixel(Helpers.toBox2d(1));
+        res.getMenu().setVisible(false);
     }
 
     public void dispose() {
