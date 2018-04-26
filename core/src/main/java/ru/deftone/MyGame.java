@@ -15,7 +15,7 @@ public class MyGame extends Game {
     }
 
     public void dispose() {
-        Resources.getInstance().dispose();
+        getScreen().dispose();
     }
 
 }

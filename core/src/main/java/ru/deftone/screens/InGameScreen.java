@@ -8,14 +8,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import java.util.Random;
 import ru.deftone.Actor;
-import ru.deftone.Helpers;
 import ru.deftone.Resources;
 import ru.deftone.actor_builders.ActorBuilder;
 import ru.deftone.actor_builders.BallBuilder;
@@ -36,7 +35,8 @@ import ru.deftone.states.HelpfulState;
  */
 
 public class InGameScreen extends ScreenAdapter {
-
+    float standardWidth = 1000;
+    float standardHeight = 800;
     private float WALL_THICKNESS = 4;
     private int FIGURE_NUMBER = 5;
     GameState state;
@@ -109,16 +109,46 @@ public class InGameScreen extends ScreenAdapter {
         }
 
         res.setLevelExit(new LevelExitBuilder().build());
-        Skin skin = new Skin(Gdx.files.internal("vis/skin/x1/uiskin.json"));
-        Window menu = new Window("Pause menu", skin);
-        menu.add(new TextButton("Close", skin));
-        menu.setVisible(false);
-        res.setMenu(menu);
+
+
+        res.setMenu(createPauseWindow());
 
         res.getBall().getBody().setLinearVelocity(new Vector2(10,20));
 
         res.getStage().getRoot().setDebug(true, true);
 
+    }
+
+    Window createPauseWindow() {
+        final ScreenAdapter screen = this;
+        Skin skin = new Skin(Gdx.files.internal("vis/skin/x1/uiskin.json"));
+        Window menu = new Window("Pause menu", skin);
+        TextButton button = new TextButton("Close", skin);
+        button.addListener( new ClickListener() {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+//                System.out.println("touchDown");
+//                System.out.println(Gdx.input.isButtonPressed(button));
+//                return super.touchDown(event, x, y, pointer, button);
+                screen.resume();
+                return false;
+            }
+
+//            public void touchDragged(InputEvent event, float x, float y, int pointer) {
+//                System.out.println("touchDragged");
+//                System.out.println(Gdx.input.isButtonPressed(event.getButton()));
+//                super.touchDragged(event, x, y, pointer);
+//            }
+//
+//            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+//                System.out.println("touchUp");
+//                System.out.println(Gdx.input.isButtonPressed(button));
+//                super.touchUp(event, x, y, pointer, button);
+//            }
+        });
+        menu.add(button);
+        menu.setScale(0.3f);
+        menu.setVisible(false);
+        return menu;
     }
 
     public void render(float delta) {
@@ -154,15 +184,17 @@ public class InGameScreen extends ScreenAdapter {
     public void pause() {
         state = GameState.Paused;
         Resources res = Resources.getInstance();
-        ((ScreenViewport) res.getStage().getViewport()).setUnitsPerPixel(1);
         res.getMenu().setVisible(true);
     }
 
     public void resume() {
         state = GameState.Running;
         Resources res = Resources.getInstance();
-        ((ScreenViewport) res.getStage().getViewport()).setUnitsPerPixel(Helpers.toBox2d(1));
         res.getMenu().setVisible(false);
+    }
+
+    public void resize(int width, int height) {
+        super.resize(width, height);
     }
 
     public void dispose() {

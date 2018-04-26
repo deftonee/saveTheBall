@@ -10,9 +10,12 @@ public class GestureListener extends GestureDetector.GestureAdapter {
         this.screen = screen;
     }
     public boolean tap (float x, float y, int count, int button) {
-        if (count == 2)
+        boolean result = false;
+        if (count == 2) {
             screen.pause();
-        return true;
+            result = true;
+        }
+        return result;
     }
 
 }
