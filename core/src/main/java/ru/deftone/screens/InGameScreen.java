@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import java.util.Random;
 import ru.deftone.Actor;
+import ru.deftone.MyGame;
 import ru.deftone.Resources;
 import ru.deftone.actor_builders.ActorBuilder;
 import ru.deftone.actor_builders.BallBuilder;
@@ -35,29 +36,13 @@ import ru.deftone.states.HelpfulState;
  */
 
 public class InGameScreen extends ScreenAdapter {
-    float standardWidth = 1000;
-    float standardHeight = 800;
-    private float WALL_THICKNESS = 4;
     private int FIGURE_NUMBER = 5;
-    GameState state;
-    enum GameState {
-        Running,
-        Paused
-    }
-
-    private static Class [] obstacleTypes = {
-            RectangleObstacleBuilder.class,
-            CircleObstacleBuilder.class,
-            TriangleObstacleBuilder.class,
-            PentagonObstacleBuilder.class,
-            HexagonObstacleBuilder.class
-    };
+    private float WALL_THICKNESS = 4;
 
     public InGameScreen(Game game) {
 
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
-        state = GameState.Running;
         Resources res = Resources.getInstance();
 
         res.createStage();
@@ -100,8 +85,8 @@ public class InGameScreen extends ScreenAdapter {
         Random random = new Random();
         for (int i = 0; i < FIGURE_NUMBER; i++){
             try {
-                builder = (ActorBuilder) obstacleTypes[
-                        random.nextInt(obstacleTypes.length)].newInstance();
+                builder = (ActorBuilder) Resources.obstacleTypes[
+                        random.nextInt(Resources.obstacleTypes.length)].newInstance();
                 res.addObstacle(builder.build());
             }
             catch (InstantiationException e) { e.printStackTrace(); }
@@ -110,52 +95,17 @@ public class InGameScreen extends ScreenAdapter {
 
         res.setLevelExit(new LevelExitBuilder().build());
 
-
-        res.setMenu(createPauseWindow());
-
         res.getBall().getBody().setLinearVelocity(new Vector2(10,20));
 
         res.getStage().getRoot().setDebug(true, true);
 
     }
 
-    Window createPauseWindow() {
-        final ScreenAdapter screen = this;
-        Skin skin = new Skin(Gdx.files.internal("vis/skin/x1/uiskin.json"));
-        Window menu = new Window("Pause menu", skin);
-        TextButton button = new TextButton("Close", skin);
-        button.addListener( new ClickListener() {
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-//                System.out.println("touchDown");
-//                System.out.println(Gdx.input.isButtonPressed(button));
-//                return super.touchDown(event, x, y, pointer, button);
-                screen.resume();
-                return false;
-            }
-
-//            public void touchDragged(InputEvent event, float x, float y, int pointer) {
-//                System.out.println("touchDragged");
-//                System.out.println(Gdx.input.isButtonPressed(event.getButton()));
-//                super.touchDragged(event, x, y, pointer);
-//            }
-//
-//            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-//                System.out.println("touchUp");
-//                System.out.println(Gdx.input.isButtonPressed(button));
-//                super.touchUp(event, x, y, pointer, button);
-//            }
-        });
-        menu.add(button);
-        menu.setScale(0.3f);
-        menu.setVisible(false);
-        return menu;
-    }
-
     public void render(float delta) {
 
         Resources res = Resources.getInstance();
 
-        if (state == GameState.Running) {
+        if (res.getGame().getState() == MyGame.GameState.Running) {
             Random random = new Random();
 
             int helpfulOnes = 0;
@@ -179,18 +129,6 @@ public class InGameScreen extends ScreenAdapter {
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glDisable(GL20.GL_BLEND);
         res.getStage().draw();
-    }
-
-    public void pause() {
-        state = GameState.Paused;
-        Resources res = Resources.getInstance();
-        res.getMenu().setVisible(true);
-    }
-
-    public void resume() {
-        state = GameState.Running;
-        Resources res = Resources.getInstance();
-        res.getMenu().setVisible(false);
     }
 
     public void resize(int width, int height) {
