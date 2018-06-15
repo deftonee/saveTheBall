@@ -3,6 +3,7 @@ package ru.deftone.states;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+
 import ru.deftone.Actor;
 import ru.deftone.Resources;
 import ru.deftone.figures.CircleFigure;

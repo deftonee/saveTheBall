@@ -1,5 +1,7 @@
 package ru.deftone.screens;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -8,30 +10,22 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import java.util.Random;
+
 import ru.deftone.Actor;
 import ru.deftone.MyGame;
 import ru.deftone.Resources;
 import ru.deftone.actor_builders.ActorBuilder;
 import ru.deftone.actor_builders.BallBuilder;
-import ru.deftone.actor_builders.CircleObstacleBuilder;
-import ru.deftone.actor_builders.HexagonObstacleBuilder;
 import ru.deftone.actor_builders.LevelExitBuilder;
-import ru.deftone.actor_builders.PentagonObstacleBuilder;
-import ru.deftone.actor_builders.RectangleObstacleBuilder;
 import ru.deftone.actor_builders.StaticObstacleBuilder;
-import ru.deftone.actor_builders.TriangleObstacleBuilder;
 import ru.deftone.listeners.CollisionListener;
 import ru.deftone.listeners.GestureListener;
 import ru.deftone.states.HelpfulState;
 
 
 /**
+ * Fixture of game level.
+ * Creates everything and does common logic every game cycle
  * Created by deftone on 28.01.2018.
  */
 

@@ -1,5 +1,7 @@
 package ru.deftone.actor_builders;
 
+import java.util.Random;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
@@ -9,7 +11,6 @@ import ru.deftone.figures.Figure;
 import ru.deftone.Helpers;
 import ru.deftone.figures.PolygonFigure;
 
-import java.util.Random;
 
 /**
  * Created by deftone on 04.02.2018.

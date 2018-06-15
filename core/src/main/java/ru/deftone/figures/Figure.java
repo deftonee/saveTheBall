@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Disposable;
 
 /**
+ * It draws actor
  * Created by deftone on 02.02.2018.
  */
 

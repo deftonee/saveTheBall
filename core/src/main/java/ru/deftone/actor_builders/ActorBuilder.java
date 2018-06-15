@@ -1,15 +1,22 @@
 package ru.deftone.actor_builders;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import java.util.Random;
+
 import ru.deftone.Actor;
 import ru.deftone.states.ActorState;
 import ru.deftone.Resources;
 import ru.deftone.figures.Figure;
 
 /**
+ * Builder of {@link Actor}.
+ * Everything is doing by {@link ActorBuilder#build} method that takes
+ * instance of {@link ActorState}, instance of {@link Figure}, name and
+ * creates new {@link Actor}.
+ * It is a template method so you can do additional job in {@link ActorBuilder#postBuild}
  * Created by deftone on 03.02.2018.
  */
 

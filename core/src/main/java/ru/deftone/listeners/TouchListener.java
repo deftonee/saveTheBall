@@ -2,9 +2,11 @@ package ru.deftone.listeners;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+
 import ru.deftone.Actor;
 
 /**
+ * Delegates screen touch event to actor
  * Created by deftone on 18.03.2018.
  */
 

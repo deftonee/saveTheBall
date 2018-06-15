@@ -11,6 +11,7 @@ import ru.deftone.figures.Figure;
 import ru.deftone.states.BallState;
 
 /**
+ * Main game character
  * Created by deftone on 04.02.2018.
  */
 

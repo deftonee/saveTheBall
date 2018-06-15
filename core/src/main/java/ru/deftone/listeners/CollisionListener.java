@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import ru.deftone.Actor;
 
 /**
+ * Delegates physics events to actors
  * Created by deftone on 18.03.2018.
  */
 

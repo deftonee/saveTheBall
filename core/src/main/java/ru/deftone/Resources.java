@@ -3,7 +3,6 @@ package ru.deftone;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.physics.box2d.World;
@@ -24,6 +23,7 @@ import ru.deftone.actor_builders.TriangleObstacleBuilder;
 import ru.deftone.screens.InGameScreen;
 
 /**
+ * Singleton that contains actors so everybody can access them from everywhere
  * Created by deftone on 28.02.2018.
  */
 

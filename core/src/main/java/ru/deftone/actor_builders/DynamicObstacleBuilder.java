@@ -1,6 +1,7 @@
 package ru.deftone.actor_builders;
 
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+
 import ru.deftone.Actor;
 import ru.deftone.listeners.TouchListener;
 import ru.deftone.states.ActorState;

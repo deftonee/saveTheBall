@@ -1,6 +1,7 @@
 package ru.deftone.states;
 
 import com.badlogic.gdx.graphics.Color;
+
 import ru.deftone.Actor;
 import ru.deftone.Helpers;
 import ru.deftone.Resources;

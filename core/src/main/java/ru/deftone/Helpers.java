@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.Shape;
 
 public class Helpers {
 
+    // pixel per meter. needed to translate screen values to box2d values
     final static float PPM = 10;
 
     public static Vector2[] calcRegularPolygonVertices(float r, int n) {

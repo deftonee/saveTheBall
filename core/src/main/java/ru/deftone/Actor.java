@@ -15,6 +15,9 @@ import ru.deftone.states.ActorState;
 import ru.deftone.states.BallState;
 
 /**
+ * All objects in game must be inherited from this.
+ * All drawing work is delegated to {@link Figure} instance
+ * Behavior must be defined with {@link ActorState} instance
  * Created by deftone on 28.01.2018.
  */
 

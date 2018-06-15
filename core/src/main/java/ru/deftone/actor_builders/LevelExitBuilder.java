@@ -1,8 +1,10 @@
 package ru.deftone.actor_builders;
 
+import java.util.Random;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import java.util.Random;
+
 import ru.deftone.Actor;
 import ru.deftone.figures.CircleFigure;
 import ru.deftone.figures.Figure;

@@ -1,6 +1,7 @@
 package ru.deftone.listeners;
 
 import com.badlogic.gdx.input.GestureDetector;
+
 import ru.deftone.screens.InGameScreen;
 
 public class GestureListener extends GestureDetector.GestureAdapter {
