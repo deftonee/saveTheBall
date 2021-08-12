@@ -56,6 +56,9 @@ public class Actor extends Widget implements Disposable {
         return figure.getBody();
     }
 
+
+
+
     public void act(float delta) {
         super.act(delta);
         state.act(delta);
